@@ -145,9 +145,31 @@
     .spot-panel-empty-text { font-size: 15px; color: var(--gray500); font-weight: 500; line-height: 1.6; }
 
     /* Custom map marker */
-    .custom-pin { background: var(--orange); color: #fff; border-radius: 12px; padding: 5px 10px; font-size: 12px; font-weight: 800; white-space: nowrap; box-shadow: 0 4px 16px rgba(232,100,42,0.4); border: 2px solid #fff; cursor: pointer; display: flex; align-items: center; gap: 5px; transition: transform 0.15s, box-shadow 0.15s; }
-    .custom-pin:hover, .custom-pin.selected { transform: scale(1.1) translateY(-2px); box-shadow: 0 8px 24px rgba(232,100,42,0.5); }
+    .hb-marker { background: none !important; border: none !important; }
+    .custom-pin {
+      background: var(--orange); color: #fff; border-radius: 20px;
+      padding: 6px 12px; font-size: 12px; font-weight: 800;
+      white-space: nowrap; box-shadow: 0 4px 16px rgba(232,100,42,0.45);
+      border: 2px solid #fff; cursor: pointer;
+      display: inline-flex; align-items: center; gap: 5px;
+      transition: transform 0.15s, box-shadow 0.15s;
+      position: relative;
+    }
+    .custom-pin::after {
+      content: '';
+      position: absolute;
+      bottom: -8px; left: 14px;
+      width: 0; height: 0;
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      border-top: 8px solid var(--orange);
+    }
+    .custom-pin:hover, .custom-pin.selected {
+      transform: scale(1.08) translateY(-2px);
+      box-shadow: 0 8px 24px rgba(232,100,42,0.55);
+    }
     .custom-pin.selected { background: var(--orange-dark); }
+    .custom-pin.selected::after { border-top-color: var(--orange-dark); }
 
     /* ─── SEARCH DEMO ──────────────────────────────── */
     .search-section { background: var(--cream); padding: 100px 0; }
@@ -639,9 +661,11 @@ window.addEventListener('scroll', () => {
 
   function createIcon(spot, selected) {
     return L.divIcon({
-      className: '',
+      className: 'hb-marker',
       html: `<div class="custom-pin${selected?' selected':''}">${spot.icon} ${spot.name}</div>`,
-      iconAnchor: [0, 16],
+      iconSize: null,
+      iconAnchor: null,
+      popupAnchor: [0, -10],
     });
   }
 
