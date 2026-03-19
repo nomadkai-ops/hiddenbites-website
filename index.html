@@ -67,28 +67,14 @@
     .stat-number { font-family: var(--font-serif); font-size: 32px; font-weight: 900; color: var(--gray900); letter-spacing: -1px; }
     .stat-label { font-size: 13px; color: var(--gray500); font-weight: 600; margin-top: 2px; }
 
-    /* SWIPEABLE PHONE */
-    .hero-phone-wrap { flex: 0 0 auto; position: relative; width: 280px; }
-    .phone-device {
-      width: 280px; height: 580px; background: #111; border-radius: 48px;
-      box-shadow: 0 50px 100px rgba(0,0,0,0.25), 0 0 0 1px rgba(255,255,255,0.08) inset;
-      position: relative; overflow: hidden;
-      transition: transform 0.2s ease-out;
-    }
-    .phone-device::before { content: ''; position: absolute; top: 14px; left: 50%; transform: translateX(-50%); width: 100px; height: 30px; background: #111; border-radius: 15px; z-index: 20; }
-    .phone-device::after { content: ''; position: absolute; inset: 0; border-radius: 48px; box-shadow: 0 0 0 2px rgba(255,255,255,0.06) inset; z-index: 21; pointer-events: none; }
-    .phone-screens { display: flex; height: 100%; transition: transform 0.45s cubic-bezier(0.25,0.46,0.45,0.94); }
-    .phone-screen { flex: 0 0 100%; height: 100%; overflow: hidden; }
-    .phone-screen img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
-    .phone-dots { display: flex; justify-content: center; gap: 8px; margin-top: 20px; }
-    .phone-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(232,100,42,0.25); cursor: pointer; transition: background 0.2s, transform 0.2s; }
-    .phone-dot.active { background: var(--orange); transform: scale(1.2); }
-    .phone-nav { position: absolute; top: 50%; transform: translateY(-50%); width: 100%; display: flex; justify-content: space-between; padding: 0 -16px; pointer-events: none; z-index: 30; }
-    .phone-arrow { width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.9); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 16px rgba(0,0,0,0.15); pointer-events: all; transition: transform 0.15s, box-shadow 0.15s; font-size: 14px; color: var(--gray900); }
-    .phone-arrow:hover { transform: scale(1.1); box-shadow: 0 6px 20px rgba(0,0,0,0.2); }
-    .phone-arrow.prev { margin-left: -18px; }
-    .phone-arrow.next { margin-right: -18px; }
-    .phone-screen-label { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.6); color: #fff; font-size: 11px; font-weight: 700; padding: 5px 14px; border-radius: 20px; letter-spacing: 0.5px; text-transform: uppercase; z-index: 25; backdrop-filter: blur(8px); white-space: nowrap; }
+    /* phones */
+    .hero-phones { flex: 0 0 auto; position: relative; width: 460px; height: 560px; }
+    .phone-frame { position: absolute; border-radius: 44px; overflow: hidden; background: #111; box-shadow: 0 40px 80px rgba(0,0,0,0.22), 0 0 0 1px rgba(255,255,255,0.1) inset; }
+    .phone-frame::before { content: ''; position: absolute; top: 12px; left: 50%; transform: translateX(-50%); width: 90px; height: 28px; background: #111; border-radius: 14px; z-index: 10; }
+    .phone-frame img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .phone-main { width: 240px; height: 510px; top: 20px; left: 50%; transform: translateX(-50%); z-index: 3; }
+    .phone-left { width: 200px; height: 420px; top: 70px; left: 0; z-index: 2; transform: rotate(-6deg); opacity: .9; }
+    .phone-right { width: 200px; height: 420px; top: 70px; right: 0; z-index: 2; transform: rotate(6deg); opacity: .9; }
 
     /* ─── FEATURES ─────────────────────────────────── */
     .features { background: var(--white); padding: 100px 0; }
@@ -129,7 +115,15 @@
     }
     .spot-panel.open { transform: translateX(0); opacity: 1; }
     .spot-panel-img { width: 100%; height: 160px; object-fit: cover; display: block; background: #eee; flex: 0 0 160px; }
-    .spot-panel-img-placeholder { width: 100%; height: 160px; flex: 0 0 160px; background: linear-gradient(135deg, #f5f5f5, #e5e5e5); display: flex; align-items: center; justify-content: center; font-size: 40px; }
+    .spot-panel-img-placeholder { width: 100%; height: 160px; flex: 0 0 160px; display: flex; align-items: center; justify-content: center; font-size: 56px; }
+    .sp-gradient-1 { background: linear-gradient(135deg, #fde8d8, #f5c5a3); }
+    .sp-gradient-2 { background: linear-gradient(135deg, #d8ede8, #a3c8be); }
+    .sp-gradient-3 { background: linear-gradient(135deg, #dce8fd, #a3b8f5); }
+    .sp-gradient-4 { background: linear-gradient(135deg, #fdf4d8, #f5dfa3); }
+    .sp-gradient-5 { background: linear-gradient(135deg, #e8d8fd, #c4a3f5); }
+    .sp-gradient-6 { background: linear-gradient(135deg, #d8fde8, #a3f5c4); }
+    .sp-gradient-7 { background: linear-gradient(135deg, #fdd8d8, #f5a3a3); }
+    .sp-gradient-8 { background: linear-gradient(135deg, #f5f0e8, #e8d8b8); }
     .spot-panel-body { padding: 20px; flex: 1; overflow-y: auto; }
     .spot-panel-badges { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
     .sp-badge { display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 50px; font-size: 11px; font-weight: 700; }
@@ -373,27 +367,11 @@
       </div>
     </div>
 
-    <!-- SWIPEABLE PHONE -->
-    <div class="hero-phone-wrap" id="phoneWrap">
-      <div class="phone-device" id="phoneDevice">
-        <div class="phone-screens" id="phoneScreens">
-          <div class="phone-screen"><img src="screen1.png" alt="Explore" /></div>
-          <div class="phone-screen"><img src="screen3.png" alt="Map" /></div>
-          <div class="phone-screen"><img src="screen2.png" alt="Spot Detail" /></div>
-          <div class="phone-screen"><img src="screen4.png" alt="Search" /></div>
-        </div>
-        <div class="phone-nav">
-          <button class="phone-arrow prev" id="phonePrev">‹</button>
-          <button class="phone-arrow next" id="phoneNext">›</button>
-        </div>
-        <div class="phone-screen-label" id="phoneLabel">Explore</div>
-      </div>
-      <div class="phone-dots" id="phoneDots">
-        <div class="phone-dot active" data-i="0"></div>
-        <div class="phone-dot" data-i="1"></div>
-        <div class="phone-dot" data-i="2"></div>
-        <div class="phone-dot" data-i="3"></div>
-      </div>
+    <!-- 3-PHONE CLUSTER -->
+    <div class="hero-phones" id="heroPhones">
+      <div class="phone-frame phone-left"><img src="screen3.png" alt="Map" /></div>
+      <div class="phone-frame phone-main"><img src="screen1.png" alt="Explore" /></div>
+      <div class="phone-frame phone-right"><img src="screen4.png" alt="Search" /></div>
     </div>
 
   </div>
@@ -585,17 +563,15 @@
 <script>
 // ── DATA ────────────────────────────────────────────────
 const SPOTS = [
-  { id:1, name:"Brezelita", category:"Bakery", cat_key:"bakery", icon:"🥐", lat:28.4635, lng:-16.2518, city:"Santa Cruz de Tenerife", country:"Spain", price:"$$", rating:4.8, reviews:3, desc:"A tiny Alsatian-style bakery tucked into a side street. The pretzels arrive warm, glossy, and properly salted.", must_order:"Triangle Bretzel", must_desc:"Thick, chewy, and perfectly golden. Best eaten straight out of the oven.", tip:"Get there before 10am or the good stuff is gone.", gem:true },
-  { id:2, name:"La Foret", category:"Restaurant", cat_key:"restaurant", icon:"🍽️", lat:28.4644, lng:-16.2480, city:"Santa Cruz de Tenerife", country:"Spain", price:"$$$", rating:4.6, reviews:5, desc:"Nestled above the city, La Foret blends French bistro charm with local Canarian produce.", must_order:"Truffle Risotto", must_desc:"Silky arborio, local mushrooms, and a truffle oil that doesn't overdo it.", tip:"The terrace at sunset is worth the wait for a table.", gem:true },
-  { id:3, name:"La Escala", category:"Café", cat_key:"cafe", icon:"☕", lat:28.4652, lng:-16.2505, city:"Santa Cruz de Tenerife", country:"Spain", price:"$$", rating:4.9, reviews:7, desc:"Specialty coffee and seasonal small plates in a plant-filled corner space that feels like a friend's living room.", must_order:"Single Origin Filter + Avocado Toast", must_desc:"The rotation changes monthly. Ask what's on the grinder today.", tip:"Come for the Saturday brunch — it fills up by 11.", gem:true },
-  { id:4, name:"Xi'an Famous Foods", category:"Restaurant", cat_key:"restaurant", icon:"🍜", lat:40.7589, lng:-73.8303, city:"New York", country:"USA", price:"$", rating:4.0, reviews:1, desc:"Started in a Flushing basement in 2005. The biang biang noodles arrive in a pool of chilli oil, black vinegar and cumin-spiced lamb.", must_order:"Spicy Cumin Lamb Biang Biang Noodles", must_desc:"Wide, hand-pulled, chewy noodles coated in chilli and vinegar with cumin lamb. Order spicy — the medium is too mild.", tip:"The Flushing location has more soul than the Manhattan branches. Cash moves faster.", gem:true },
-  { id:5, name:"Hamy Café", category:"Restaurant", cat_key:"restaurant", icon:"🍽️", lat:52.5130, lng:13.4050, city:"Berlin", country:"Germany", price:"$", rating:5.0, reviews:2, desc:"Vietnamese home cooking in a Berlin living room. No menu, just whatever Hamy's mother made that morning.", must_order:"Bún bò Huế", must_desc:"Spicy lemongrass beef noodle soup with thick round noodles and crispy shallots.", tip:"Cash only. No reservations. Come before noon.", gem:true },
-  { id:6, name:"Taberna da Rua das Flores", category:"Restaurant", cat_key:"restaurant", icon:"🍽️", lat:38.7122, lng:-9.1413, city:"Lisbon", country:"Portugal", price:"$$", rating:4.8, reviews:4, desc:"Tiny old-school tasca in Lisbon's Chiado. The kind of place where the waiter remembers your order without writing it down.", must_order:"Bacalhau à Brás", must_desc:"Shredded salt cod with crispy potatoes, eggs, and black olives. An honest classic done perfectly.", tip:"Sit at the counter for the best view of the open kitchen.", gem:true },
-  { id:7, name:"Torishiki", category:"Restaurant", cat_key:"restaurant", icon:"🍽️", lat:35.6528, lng:139.7200, city:"Tokyo", country:"Japan", price:"$$$", rating:5.0, reviews:6, desc:"The yakitori counter that changed what chicken could be. Every skewer is its own lesson in restraint.", must_order:"Kawa (Chicken Skin)", must_desc:"Crisped low and slow over charcoal until it shatters. Then soft. Four skewers minimum.", tip:"Book two months ahead. Worth every refresh of the reservation page.", gem:true },
-  { id:8, name:"Osteria dell'Angelo", category:"Restaurant", cat_key:"restaurant", icon:"🍽️", lat:41.8936, lng:12.4521, city:"Rome", country:"Italy", price:"$$", rating:4.6, reviews:3, desc:"Old-school Roman trattoria where Thursday means gnocchi and Friday means salt cod. Non-negotiable.", must_order:"Cacio e Pepe", must_desc:"Pasta, cheese, pepper. The Roman trinity executed without shortcuts or cream.", tip:"Never order off-menu on a Thursday — just get the gnocchi.", gem:true },
+  { id:1, name:"Brezelita", category:"Bakery", cat_key:"bakery", icon:"🥐", lat:28.4635, lng:-16.2518, city:"Santa Cruz de Tenerife", country:"Spain", price:"$$", rating:4.8, reviews:3, desc:"A tiny Alsatian-style bakery tucked into a side street. The pretzels arrive warm, glossy, and properly salted.", must_order:"Triangle Bretzel", must_desc:"Thick, chewy, and perfectly golden. Best eaten straight out of the oven.", tip:"Get there before 10am or the good stuff is gone.", gem:true, grad:"sp-gradient-1" },
+  { id:2, name:"La Foret", category:"Restaurant", cat_key:"restaurant", icon:"🍽️", lat:28.4644, lng:-16.2480, city:"Santa Cruz de Tenerife", country:"Spain", price:"$$$", rating:4.6, reviews:5, desc:"Nestled above the city, La Foret blends French bistro charm with local Canarian produce.", must_order:"Truffle Risotto", must_desc:"Silky arborio, local mushrooms, and a truffle oil that doesn't overdo it.", tip:"The terrace at sunset is worth the wait for a table.", gem:true, grad:"sp-gradient-2" },
+  { id:3, name:"La Escala", category:"Café", cat_key:"cafe", icon:"☕", lat:28.4652, lng:-16.2505, city:"Santa Cruz de Tenerife", country:"Spain", price:"$$", rating:4.9, reviews:7, desc:"Specialty coffee and seasonal small plates in a plant-filled corner space that feels like a friend's living room.", must_order:"Single Origin Filter + Avocado Toast", must_desc:"The rotation changes monthly. Ask what's on the grinder today.", tip:"Come for the Saturday brunch — it fills up by 11.", gem:true, grad:"sp-gradient-3" },
+  { id:4, name:"Xi'an Famous Foods", category:"Restaurant", cat_key:"restaurant", icon:"🍜", lat:40.7589, lng:-73.8303, city:"New York", country:"USA", price:"$", rating:4.0, reviews:1, desc:"Started in a Flushing basement in 2005. The biang biang noodles arrive in a pool of chilli oil, black vinegar and cumin-spiced lamb.", must_order:"Spicy Cumin Lamb Biang Biang Noodles", must_desc:"Wide, hand-pulled, chewy noodles coated in chilli and vinegar with cumin lamb. Order spicy — the medium is too mild.", tip:"The Flushing location has more soul than the Manhattan branches. Cash moves faster.", gem:true, grad:"sp-gradient-4" },
+  { id:5, name:"Hamy Café", category:"Restaurant", cat_key:"restaurant", icon:"🍽️", lat:52.5130, lng:13.4050, city:"Berlin", country:"Germany", price:"$", rating:5.0, reviews:2, desc:"Vietnamese home cooking in a Berlin living room. No menu, just whatever Hamy's mother made that morning.", must_order:"Bún bò Huế", must_desc:"Spicy lemongrass beef noodle soup with thick round noodles and crispy shallots.", tip:"Cash only. No reservations. Come before noon.", gem:true, grad:"sp-gradient-5" },
+  { id:6, name:"Taberna da Rua das Flores", category:"Restaurant", cat_key:"restaurant", icon:"🍽️", lat:38.7122, lng:-9.1413, city:"Lisbon", country:"Portugal", price:"$$", rating:4.8, reviews:4, desc:"Tiny old-school tasca in Lisbon's Chiado. The kind of place where the waiter remembers your order without writing it down.", must_order:"Bacalhau à Brás", must_desc:"Shredded salt cod with crispy potatoes, eggs, and black olives. An honest classic done perfectly.", tip:"Sit at the counter for the best view of the open kitchen.", gem:true, grad:"sp-gradient-6" },
+  { id:7, name:"Torishiki", category:"Restaurant", cat_key:"restaurant", icon:"🍽️", lat:35.6528, lng:139.7200, city:"Tokyo", country:"Japan", price:"$$$", rating:5.0, reviews:6, desc:"The yakitori counter that changed what chicken could be. Every skewer is its own lesson in restraint.", must_order:"Kawa (Chicken Skin)", must_desc:"Crisped low and slow over charcoal until it shatters. Then soft. Four skewers minimum.", tip:"Book two months ahead. Worth every refresh of the reservation page.", gem:true, grad:"sp-gradient-7" },
+  { id:8, name:"Osteria dell'Angelo", category:"Restaurant", cat_key:"restaurant", icon:"🍽️", lat:41.8936, lng:12.4521, city:"Rome", country:"Italy", price:"$$", rating:4.6, reviews:3, desc:"Old-school Roman trattoria where Thursday means gnocchi and Friday means salt cod. Non-negotiable.", must_order:"Cacio e Pepe", must_desc:"Pasta, cheese, pepper. The Roman trinity executed without shortcuts or cream.", tip:"Never order off-menu on a Thursday — just get the gnocchi.", gem:true, grad:"sp-gradient-8" },
 ];
-
-const SCREEN_LABELS = ["Explore", "Map", "Spot Detail", "My Spots"];
 
 // ── FADE UP ─────────────────────────────────────────────
 const fadeObs = new IntersectionObserver(entries => {
@@ -605,10 +581,9 @@ document.querySelectorAll('.fade-up').forEach(el => fadeObs.observe(el));
 
 // ── STAT COUNTERS ────────────────────────────────────────
 function animateCount(el, target, suffix) {
-  const dur = 1400; const start = performance.now();
+  const dur = 1400, start = performance.now();
   const tick = now => {
-    const p = Math.min((now-start)/dur,1);
-    const e = 1-Math.pow(1-p,3);
+    const p = Math.min((now-start)/dur,1), e = 1-Math.pow(1-p,3);
     el.textContent = Math.floor(e*target)+suffix;
     if(p<1) requestAnimationFrame(tick);
   };
@@ -617,9 +592,7 @@ function animateCount(el, target, suffix) {
 const statsObs = new IntersectionObserver(entries => {
   entries.forEach(e => {
     if(!e.isIntersecting) return;
-    e.target.querySelectorAll('.stat-number').forEach(el => {
-      animateCount(el, +el.dataset.target, el.dataset.suffix);
-    });
+    e.target.querySelectorAll('.stat-number').forEach(el => animateCount(el, +el.dataset.target, el.dataset.suffix));
     statsObs.unobserve(e.target);
   });
 }, { threshold: 0.5 });
@@ -635,72 +608,55 @@ window.addEventListener('scroll', () => {
   if(d) d.style.transform = `translateY(${sy*0.15}px)`;
 }, { passive: true });
 
-// ── SWIPEABLE PHONE ──────────────────────────────────────
+// ── 3-PHONE TILT ────────────────────────────────────────
 (function() {
-  const screens = document.getElementById('phoneScreens');
-  const dots = document.querySelectorAll('.phone-dot');
-  const label = document.getElementById('phoneLabel');
-  const device = document.getElementById('phoneDevice');
-  let cur = 0, total = 4, autoTimer;
-
-  function go(i) {
-    cur = (i + total) % total;
-    screens.style.transform = `translateX(-${cur * 100}%)`;
-    dots.forEach((d,idx) => d.classList.toggle('active', idx===cur));
-    label.textContent = SCREEN_LABELS[cur];
-  }
-
-  document.getElementById('phonePrev').addEventListener('click', () => { clearInterval(autoTimer); go(cur-1); startAuto(); });
-  document.getElementById('phoneNext').addEventListener('click', () => { clearInterval(autoTimer); go(cur+1); startAuto(); });
-  dots.forEach(d => d.addEventListener('click', () => { clearInterval(autoTimer); go(+d.dataset.i); startAuto(); }));
-
-  // Touch swipe
-  let tx = 0;
-  device.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
-  device.addEventListener('touchend', e => {
-    const dx = e.changedTouches[0].clientX - tx;
-    if(Math.abs(dx) > 40) { clearInterval(autoTimer); go(dx < 0 ? cur+1 : cur-1); startAuto(); }
-  }, { passive: true });
-
-  // Phone tilt on mouse
-  document.querySelector('.hero')?.addEventListener('mousemove', e => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const dx = (e.clientX - rect.left - rect.width/2) / rect.width;
-    const dy = (e.clientY - rect.top - rect.height/2) / rect.height;
-    device.style.transform = `perspective(800px) rotateY(${dx*8}deg) rotateX(${-dy*5}deg)`;
+  const phones = document.getElementById('heroPhones');
+  const hero = document.querySelector('.hero');
+  if(!phones || !hero) return;
+  hero.addEventListener('mousemove', e => {
+    const r = hero.getBoundingClientRect();
+    const dx = (e.clientX - r.left - r.width/2) / r.width;
+    const dy = (e.clientY - r.top - r.height/2) / r.height;
+    phones.style.transform = `perspective(1000px) rotateY(${dx*8}deg) rotateX(${-dy*5}deg)`;
+    phones.style.transition = 'transform 0.1s ease-out';
   });
-  document.querySelector('.hero')?.addEventListener('mouseleave', () => {
-    device.style.transform = '';
+  hero.addEventListener('mouseleave', () => {
+    phones.style.transform = '';
+    phones.style.transition = 'transform 0.6s ease-out';
   });
-
-  function startAuto() { autoTimer = setInterval(() => go(cur+1), 3000); }
-  startAuto();
 })();
 
 // ── LEAFLET MAP ──────────────────────────────────────────
 (function() {
-  const map = L.map('spotMap', { zoomControl: true, scrollWheelZoom: false }).setView([30, 10], 2);
-
+  const map = L.map('spotMap', { zoomControl: true, scrollWheelZoom: false }).setView([35, 10], 2);
   L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-    attribution: '© OpenStreetMap © Carto',
-    subdomains: 'abcd', maxZoom: 19
+    attribution: '© OpenStreetMap © Carto', subdomains: 'abcd', maxZoom: 19
   }).addTo(map);
 
   const panel = document.getElementById('spotPanel');
   let selectedId = null;
-  const markers = {};
+  const markerMap = {};
 
-  function createMarkerIcon(spot, selected) {
+  function createIcon(spot, selected) {
     return L.divIcon({
       className: '',
-      html: `<div class="custom-pin ${selected?'selected':''}">${spot.icon} ${spot.name}</div>`,
-      iconAnchor: [0, 0],
+      html: `<div class="custom-pin${selected?' selected':''}">${spot.icon} ${spot.name}</div>`,
+      iconAnchor: [0, 16],
     });
   }
 
+  function buildStars(r) {
+    return '★'.repeat(Math.floor(r)) + '☆'.repeat(5 - Math.floor(r));
+  }
+
   function showSpot(spot) {
+    selectedId = spot.id;
+    // update all marker icons
+    Object.entries(markerMap).forEach(([id, m]) => {
+      m.setIcon(createIcon(SPOTS.find(s=>s.id===+id), +id===spot.id));
+    });
     panel.innerHTML = `
-      <img src="screen${spot.id <= 3 ? spot.id : 2}.png" alt="${spot.name}" class="spot-panel-img" onerror="this.outerHTML='<div class=\\'spot-panel-img-placeholder\\'>${spot.icon}</div>'" />
+      <div class="spot-panel-img-placeholder ${spot.grad}">${spot.icon}</div>
       <div class="spot-panel-body">
         <div class="spot-panel-badges">
           ${spot.gem ? '<span class="sp-badge sp-badge-gem">💎 Hidden Gem</span>' : ''}
@@ -709,31 +665,32 @@ window.addEventListener('scroll', () => {
         </div>
         <div class="spot-panel-name">${spot.name}</div>
         <div class="spot-panel-loc">📍 ${spot.city}, ${spot.country}</div>
-        <div class="spot-panel-rating">${'★'.repeat(Math.floor(spot.rating))}${'☆'.repeat(5-Math.floor(spot.rating))} <span style="color:#888;font-weight:500">${spot.rating} (${spot.reviews} review${spot.reviews!==1?'s':''})</span></div>
+        <div class="spot-panel-rating">${buildStars(spot.rating)} <span style="color:#888;font-weight:500">${spot.rating} (${spot.reviews} review${spot.reviews!==1?'s':''})</span></div>
         <div class="spot-panel-desc">${spot.desc}</div>
-        <div class="spot-panel-must"><div class="spm-label">Must Order</div><div class="spm-title">${spot.must_order}</div></div>
-        <div class="spot-panel-tip"><div class="spt-label">💡 Insider Tip</div><div class="spt-text">${spot.tip}</div></div>
+        <div class="spot-panel-must">
+          <div class="spm-label">Must Order</div>
+          <div class="spm-title">${spot.must_order}</div>
+          <div style="font-size:12px;color:#888;margin-top:4px;font-weight:500;line-height:1.5">${spot.must_desc}</div>
+        </div>
+        <div class="spot-panel-tip">
+          <div class="spt-label">💡 Insider Tip</div>
+          <div class="spt-text">${spot.tip}</div>
+        </div>
       </div>`;
     panel.classList.add('open');
   }
 
   SPOTS.forEach(spot => {
-    const marker = L.marker([spot.lat, spot.lng], {
-      icon: createMarkerIcon(spot, false)
-    }).addTo(map);
-
+    const marker = L.marker([spot.lat, spot.lng], { icon: createIcon(spot, false) }).addTo(map);
     marker.on('click', () => {
-      if(selectedId && markers[selectedId]) {
-        markers[selectedId].setIcon(createMarkerIcon(SPOTS.find(s=>s.id===selectedId), false));
-      }
-      selectedId = spot.id;
-      marker.setIcon(createMarkerIcon(spot, true));
       showSpot(spot);
       if(window.innerWidth > 900) map.panTo([spot.lat, spot.lng], { animate: true });
     });
-
-    markers[spot.id] = marker;
+    markerMap[spot.id] = marker;
   });
+
+  // Auto-open first spot after map loads
+  setTimeout(() => showSpot(SPOTS[0]), 400);
 })();
 
 // ── LIVE SEARCH ──────────────────────────────────────────
@@ -744,27 +701,31 @@ window.addEventListener('scroll', () => {
   const chips = document.querySelectorAll('.search-chip');
   let activeCat = 'all', query = '';
 
+  function highlight(text, q) {
+    if(!q) return text;
+    const idx = text.toLowerCase().indexOf(q.toLowerCase());
+    if(idx < 0) return text;
+    return text.slice(0,idx) + `<mark style="background:var(--orange-light);color:var(--orange);border-radius:3px;padding:0 2px">${text.slice(idx,idx+q.length)}</mark>` + text.slice(idx+q.length);
+  }
+
   function render() {
     const q = query.toLowerCase();
     const filtered = SPOTS.filter(s => {
       const matchCat = activeCat === 'all' || s.cat_key === activeCat;
-      const matchQ = !q || s.name.toLowerCase().includes(q) || s.city.toLowerCase().includes(q) || s.category.toLowerCase().includes(q) || s.must_order.toLowerCase().includes(q) || s.desc.toLowerCase().includes(q);
+      const matchQ = !q || [s.name, s.city, s.category, s.must_order, s.desc].some(t => t.toLowerCase().includes(q));
       return matchCat && matchQ;
     });
-
     countEl.textContent = `${filtered.length} spot${filtered.length!==1?'s':''} found`;
-
     if(filtered.length === 0) {
-      results.innerHTML = `<div class="search-empty"><div class="search-empty-emoji">🔍</div><div class="search-empty-text">No spots found for "${query}".<br/>Try a different search.</div></div>`;
+      results.innerHTML = `<div class="search-empty"><div class="search-empty-emoji">🔍</div><div class="search-empty-text">No spots found.<br/>Try a different search.</div></div>`;
       return;
     }
-
     results.innerHTML = filtered.map(s => `
-      <div class="search-result-item" data-id="${s.id}">
+      <div class="search-result-item">
         <div class="sri-img">${s.icon}</div>
         <div class="sri-info">
-          <div class="sri-name">${highlight(s.name, q)}</div>
-          <div class="sri-meta">📍 ${s.city}, ${s.country} · ${s.category}</div>
+          <div class="sri-name">${highlight(s.name, query)}</div>
+          <div class="sri-meta">📍 ${highlight(s.city, query)}, ${s.country} · ${s.category}</div>
           <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
             ${s.gem ? '<span class="sri-gem">💎 Hidden Gem</span>' : ''}
             <span class="sri-rating">${'★'.repeat(Math.floor(s.rating))} ${s.rating}</span>
@@ -772,13 +733,6 @@ window.addEventListener('scroll', () => {
           </div>
         </div>
       </div>`).join('');
-  }
-
-  function highlight(text, q) {
-    if(!q) return text;
-    const idx = text.toLowerCase().indexOf(q);
-    if(idx < 0) return text;
-    return text.slice(0,idx) + `<mark style="background:var(--orange-light);color:var(--orange);border-radius:3px;padding:0 2px">${text.slice(idx,idx+q.length)}</mark>` + text.slice(idx+q.length);
   }
 
   input.addEventListener('input', () => { query = input.value; render(); });
@@ -789,7 +743,6 @@ window.addEventListener('scroll', () => {
       render();
     });
   });
-
   render();
 })();
 </script>
