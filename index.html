@@ -319,14 +319,22 @@
     @media (max-width: 1100px) {
       .hero-inner { gap: 40px; }
       .map-layout { grid-template-columns: 1fr; }
-      .spot-panel { height: 320px; flex-direction: row; }
-      .spot-panel-img, .spot-panel-img-placeholder { width: 200px; height: 100%; flex: 0 0 200px; }
+      .spot-panel {
+        height: auto;
+        flex-direction: column;
+        transform: translateY(12px);
+        margin-top: 8px;
+      }
+      .spot-panel.open { transform: translateY(0); }
+      .spot-panel-img-placeholder { height: 140px; flex: 0 0 140px; width: 100%; }
       .search-layout { grid-template-columns: 1fr; }
       .showcase-inner { grid-template-columns: 1fr; gap: 48px; }
       .challenges-inner { grid-template-columns: 1fr; gap: 48px; }
     }
     @media (max-width: 900px) {
       .nav-inner { padding: 0 24px; }
+      .map-section { padding: 80px 0; }
+      .map-container { height: 340px; }
       .hero { padding: 100px 24px 60px; }
       .hero-inner { flex-direction: column; text-align: center; }
       .hero-content { max-width: 100%; }
@@ -342,6 +350,10 @@
       .hero h1 { font-size: 44px; }
       .features-grid { grid-template-columns: 1fr; }
       .contributors-grid { grid-template-columns: 1fr; }
+      .map-container { height: 280px; border-radius: 16px; }
+      .spot-panel { border-radius: 16px; }
+      .spot-panel-body { padding: 16px; }
+      .spot-panel-name { font-size: 17px; }
       footer { padding: 28px 24px; }
       .footer-inner { flex-direction: column; align-items: flex-start; gap: 16px; }
       .footer-links { flex-wrap: wrap; gap: 16px; }
@@ -576,12 +588,12 @@
 <footer>
   <div class="footer-inner">
     <div class="footer-logo"><img src="icon.png" alt="HiddenBites" /><div class="footer-logo-text">HIDDEN<span>BITES</span></div></div>
-    <ul class="footer-links"><li><a href="#">Privacy Policy</a></li><li><a href="#">Community Guidelines</a></li><li><a href="mailto:hey@kai-thomas.com">Contact</a></li></ul>
+    <ul class="footer-links"><li><a href="#">Privacy Policy</a></li><li><a href="#">Community Guidelines</a></li><li><a href="/cdn-cgi/l/email-protection#e0888599a08b8189cd94888f8d8193ce838f8d">Contact</a></li></ul>
     <span class="footer-copy">© 2026 HiddenBites. All rights reserved.</span>
   </div>
 </footer>
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 // ── DATA ────────────────────────────────────────────────
 const SPOTS = [
@@ -763,12 +775,4 @@ window.addEventListener('scroll', () => {
   chips.forEach(chip => {
     chip.addEventListener('click', () => {
       activeCat = chip.dataset.cat;
-      chips.forEach(c => c.classList.toggle('active', c.dataset.cat === activeCat));
-      render();
-    });
-  });
-  render();
-})();
-</script>
-</body>
-</html>
+      chip
