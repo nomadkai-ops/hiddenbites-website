@@ -1,0 +1,1332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HiddenBites — Discover Hidden Gems</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,900;1,9..144,300;1,9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --orange: #E8642A;
+      --orange-dark: #C44E18;
+      --orange-light: #FFF0E8;
+      --black: #0A0A0A;
+      --gray900: #1A1A1A;
+      --gray700: #404040;
+      --gray500: #888;
+      --gray300: #CCC;
+      --gray100: #F5F5F5;
+      --bg: #FAFAFA;
+      --white: #FFF;
+      --cream: #FDF8F4;
+      --font-serif: 'Fraunces', Georgia, serif;
+      --font-sans: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg);
+      color: var(--gray900);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ───────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(250,250,250,0.88);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      padding: 0 40px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .nav-logo img {
+      width: 34px;
+      height: 34px;
+      border-radius: 9px;
+    }
+
+    .nav-logo span {
+      font-family: var(--font-sans);
+      font-weight: 800;
+      font-size: 17px;
+      color: var(--gray900);
+      letter-spacing: 0.5px;
+    }
+
+    .nav-logo span b {
+      color: var(--orange);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--gray700);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--orange); }
+
+    .nav-cta {
+      background: var(--orange);
+      color: #fff !important;
+      padding: 10px 22px;
+      border-radius: 50px;
+      font-size: 14px !important;
+      font-weight: 700 !important;
+      transition: background 0.2s, transform 0.15s !important;
+    }
+
+    .nav-cta:hover {
+      background: var(--orange-dark) !important;
+      color: #fff !important;
+      transform: translateY(-1px);
+    }
+
+    /* ── HERO ──────────────────────────────────────── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 100px 80px 80px;
+      position: relative;
+      overflow: hidden;
+      background: var(--cream);
+    }
+
+    .hero-bg-circle {
+      position: absolute;
+      top: -200px;
+      right: -200px;
+      width: 700px;
+      height: 700px;
+      background: radial-gradient(circle, rgba(232,100,42,0.12) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .hero-bg-dots {
+      position: absolute;
+      bottom: 60px;
+      left: 60px;
+      width: 200px;
+      height: 200px;
+      background-image: radial-gradient(circle, rgba(232,100,42,0.2) 1.5px, transparent 1.5px);
+      background-size: 20px 20px;
+      pointer-events: none;
+    }
+
+    .hero-content {
+      flex: 1;
+      max-width: 580px;
+      z-index: 1;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--white);
+      border: 1.5px solid rgba(232,100,42,0.2);
+      border-radius: 50px;
+      padding: 8px 16px;
+      margin-bottom: 32px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--orange);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      box-shadow: 0 2px 12px rgba(232,100,42,0.1);
+    }
+
+    .hero-badge span.dot {
+      width: 6px;
+      height: 6px;
+      background: var(--orange);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.8); }
+    }
+
+    .hero h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(52px, 6vw, 80px);
+      font-weight: 900;
+      line-height: 1.0;
+      color: var(--gray900);
+      letter-spacing: -1.5px;
+      margin-bottom: 24px;
+    }
+
+    .hero h1 em {
+      font-style: italic;
+      color: var(--orange);
+    }
+
+    .hero-sub {
+      font-size: 18px;
+      color: var(--gray500);
+      line-height: 1.7;
+      margin-bottom: 44px;
+      max-width: 440px;
+      font-weight: 500;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--orange);
+      color: #fff;
+      text-decoration: none;
+      padding: 16px 32px;
+      border-radius: 16px;
+      font-size: 16px;
+      font-weight: 800;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+      box-shadow: 0 8px 32px rgba(232,100,42,0.35);
+    }
+
+    .btn-primary:hover {
+      background: var(--orange-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(232,100,42,0.4);
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--gray900);
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 700;
+      padding: 16px 0;
+      border-bottom: 2px solid transparent;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .btn-secondary:hover {
+      color: var(--orange);
+      border-color: var(--orange);
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 36px;
+      margin-top: 52px;
+      padding-top: 40px;
+      border-top: 1px solid rgba(0,0,0,0.07);
+    }
+
+    .stat-item {}
+
+    .stat-number {
+      font-family: var(--font-serif);
+      font-size: 32px;
+      font-weight: 900;
+      color: var(--gray900);
+      letter-spacing: -1px;
+    }
+
+    .stat-label {
+      font-size: 13px;
+      color: var(--gray500);
+      font-weight: 600;
+      margin-top: 2px;
+    }
+
+    /* phone mockup cluster */
+    .hero-phones {
+      flex: 0 0 auto;
+      position: relative;
+      width: 480px;
+      height: 580px;
+      z-index: 1;
+    }
+
+    .phone-frame {
+      position: absolute;
+      border-radius: 44px;
+      overflow: hidden;
+      background: #111;
+      box-shadow: 0 40px 80px rgba(0,0,0,0.22), 0 0 0 1px rgba(255,255,255,0.1) inset;
+    }
+
+    .phone-frame::before {
+      content: '';
+      position: absolute;
+      top: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90px;
+      height: 28px;
+      background: #111;
+      border-radius: 14px;
+      z-index: 10;
+    }
+
+    .phone-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .phone-main {
+      width: 240px;
+      height: 510px;
+      top: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 3;
+    }
+
+    .phone-left {
+      width: 200px;
+      height: 430px;
+      top: 70px;
+      left: 0;
+      z-index: 2;
+      transform: rotate(-6deg);
+      opacity: 0.9;
+    }
+
+    .phone-right {
+      width: 200px;
+      height: 430px;
+      top: 70px;
+      right: 0;
+      z-index: 2;
+      transform: rotate(6deg);
+      opacity: 0.9;
+    }
+
+    /* ── SECTION BASE ──────────────────────────────── */
+    section {
+      padding: 100px 80px;
+    }
+
+    .section-label {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-family: var(--font-serif);
+      font-size: clamp(36px, 4vw, 52px);
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: -1px;
+      color: var(--gray900);
+      margin-bottom: 16px;
+    }
+
+    .section-title em {
+      font-style: italic;
+      color: var(--orange);
+    }
+
+    .section-sub {
+      font-size: 17px;
+      color: var(--gray500);
+      line-height: 1.7;
+      max-width: 480px;
+      font-weight: 500;
+    }
+
+    /* ── FEATURES ──────────────────────────────────── */
+    .features {
+      background: var(--white);
+    }
+
+    .features-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 64px;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .feature-card {
+      background: var(--cream);
+      border-radius: 24px;
+      padding: 36px 32px;
+      transition: transform 0.25s, box-shadow 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; right: 0;
+      width: 120px; height: 120px;
+      background: radial-gradient(circle at 100% 100%, rgba(232,100,42,0.08), transparent 70%);
+      pointer-events: none;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+    }
+
+    .feature-icon {
+      font-size: 36px;
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .feature-card h3 {
+      font-family: var(--font-serif);
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--gray900);
+      margin-bottom: 12px;
+      letter-spacing: -0.3px;
+    }
+
+    .feature-card p {
+      font-size: 15px;
+      color: var(--gray500);
+      line-height: 1.7;
+      font-weight: 500;
+    }
+
+    .feature-tag {
+      display: inline-block;
+      margin-top: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--orange);
+      padding: 6px 12px;
+      background: var(--orange-light);
+      border-radius: 50px;
+    }
+
+    /* ── SPOT SHOWCASE ─────────────────────────────── */
+    .showcase {
+      background: var(--gray900);
+      color: #fff;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .showcase .section-title { color: #fff; }
+    .showcase .section-sub { color: rgba(255,255,255,0.55); }
+
+    .showcase-card {
+      background: var(--white);
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: 0 40px 80px rgba(0,0,0,0.4);
+      transform: rotate(2deg);
+      transition: transform 0.4s;
+    }
+
+    .showcase-card:hover { transform: rotate(0deg) scale(1.02); }
+
+    .showcase-card-img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+    }
+
+    .showcase-card-img-placeholder {
+      width: 100%;
+      height: 220px;
+      background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .showcase-card-body {
+      padding: 24px;
+    }
+
+    .badge-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 12px;
+      border-radius: 50px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .badge-gem {
+      background: #1A1A1A;
+      color: #fff;
+    }
+
+    .badge-verified {
+      background: #DCFCE7;
+      color: #16a34a;
+    }
+
+    .spot-category {
+      font-size: 13px;
+      color: var(--gray500);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+
+    .spot-name {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--gray900);
+      letter-spacing: -0.3px;
+      margin-bottom: 4px;
+    }
+
+    .spot-location {
+      font-size: 13px;
+      color: var(--gray500);
+      margin-bottom: 12px;
+    }
+
+    .spot-rating {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      font-weight: 700;
+      color: #F59E0B;
+      margin-bottom: 16px;
+    }
+
+    .must-order-box {
+      background: var(--orange-light);
+      border-radius: 14px;
+      padding: 14px 16px;
+      margin-bottom: 10px;
+    }
+
+    .must-order-label {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      color: var(--orange);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .must-order-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--gray900);
+    }
+
+    .insider-tip-box {
+      background: #FFFBEB;
+      border-radius: 14px;
+      padding: 14px 16px;
+    }
+
+    .insider-label {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      color: #D97706;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .insider-text {
+      font-size: 13px;
+      color: var(--gray700);
+      line-height: 1.6;
+      font-weight: 500;
+    }
+
+    /* ── SCREENS STRIP ─────────────────────────────── */
+    .screens-section {
+      background: var(--cream);
+      overflow: hidden;
+    }
+
+    .screens-header {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: end;
+      gap: 40px;
+      margin-bottom: 60px;
+    }
+
+    .screens-strip {
+      display: flex;
+      gap: 20px;
+      overflow-x: auto;
+      padding: 20px 0 40px;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .screens-strip::-webkit-scrollbar { display: none; }
+
+    .screen-item {
+      flex: 0 0 auto;
+      border-radius: 36px;
+      overflow: hidden;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.14);
+      transition: transform 0.3s;
+    }
+
+    .screen-item:hover { transform: translateY(-8px); }
+
+    .screen-item img {
+      display: block;
+      height: 480px;
+      width: auto;
+    }
+
+    /* ── CHALLENGES ────────────────────────────────── */
+    .challenges {
+      background: var(--white);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .challenge-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .challenge-card {
+      background: var(--cream);
+      border-radius: 20px;
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      transition: transform 0.25s, box-shadow 0.25s;
+      border: 1.5px solid rgba(0,0,0,0.04);
+    }
+
+    .challenge-card:hover {
+      transform: translateX(6px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.07);
+    }
+
+    .challenge-card.active { border-color: rgba(232,100,42,0.3); background: var(--orange-light); }
+
+    .challenge-emoji { font-size: 36px; flex: 0 0 auto; }
+
+    .challenge-info { flex: 1; }
+
+    .challenge-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--gray900);
+      margin-bottom: 4px;
+    }
+
+    .challenge-meta {
+      font-size: 13px;
+      color: var(--gray500);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 500;
+    }
+
+    .challenge-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 50px;
+    }
+
+    .status-voting { background: var(--orange-light); color: var(--orange); }
+    .status-active { background: #DCFCE7; color: #16a34a; }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    /* ── CONTRIBUTORS ──────────────────────────────── */
+    .contributors {
+      background: var(--cream);
+      text-align: center;
+    }
+
+    .contributors-header { margin-bottom: 60px; }
+
+    .contributors-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .contributor-card {
+      background: var(--white);
+      border-radius: 24px;
+      padding: 32px 24px;
+      text-align: center;
+      transition: transform 0.25s, box-shadow 0.25s;
+      border: 1.5px solid rgba(0,0,0,0.04);
+    }
+
+    .contributor-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.08);
+    }
+
+    .contributor-avatar {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--orange) 0%, var(--orange-dark) 100%);
+      margin: 0 auto 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      font-weight: 900;
+      color: #fff;
+      position: relative;
+    }
+
+    .contributor-rank {
+      position: absolute;
+      bottom: -4px;
+      right: -4px;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--gray900);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid var(--white);
+    }
+
+    .rank-1 { background: #F59E0B; }
+    .rank-2 { background: var(--gray500); }
+    .rank-3 { background: #CD7F32; }
+
+    .contributor-name {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--gray900);
+      margin-bottom: 4px;
+    }
+
+    .contributor-city {
+      font-size: 13px;
+      color: var(--gray500);
+      margin-bottom: 12px;
+      font-weight: 500;
+    }
+
+    .contributor-badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: var(--orange-light);
+      color: var(--orange);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 5px 12px;
+      border-radius: 50px;
+      margin-bottom: 12px;
+    }
+
+    .contributor-spots {
+      font-size: 13px;
+      color: var(--gray500);
+      font-weight: 600;
+    }
+
+    .contributor-spots b {
+      color: var(--orange);
+      font-weight: 800;
+    }
+
+    /* ── DOWNLOAD CTA ──────────────────────────────── */
+    .download-cta {
+      background: var(--gray900);
+      color: #fff;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .download-cta::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(232,100,42,0.2) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .download-cta .section-title { color: #fff; }
+    .download-cta .section-sub { color: rgba(255,255,255,0.5); margin: 0 auto 48px; text-align: center; }
+
+    .app-store-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: #fff;
+      color: var(--gray900);
+      text-decoration: none;
+      padding: 16px 32px;
+      border-radius: 16px;
+      font-size: 16px;
+      font-weight: 800;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    }
+
+    .app-store-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.4);
+    }
+
+    .app-store-btn svg { flex: 0 0 auto; }
+
+    .beta-note {
+      margin-top: 20px;
+      font-size: 13px;
+      color: rgba(255,255,255,0.35);
+      font-weight: 500;
+    }
+
+    /* ── FOOTER ────────────────────────────────────── */
+    footer {
+      background: var(--black);
+      color: rgba(255,255,255,0.4);
+      padding: 40px 80px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .footer-logo img {
+      width: 28px;
+      height: 28px;
+      border-radius: 7px;
+      opacity: 0.8;
+    }
+
+    .footer-logo span {
+      font-size: 15px;
+      font-weight: 800;
+      color: rgba(255,255,255,0.6);
+      letter-spacing: 0.5px;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
+
+    .footer-links a {
+      font-size: 13px;
+      color: rgba(255,255,255,0.35);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--orange); }
+
+    .footer-copy {
+      font-size: 12px;
+      color: rgba(255,255,255,0.2);
+    }
+
+    /* ── SCROLL ANIMATIONS ─────────────────────────── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .fade-up.delay-1 { transition-delay: 0.1s; }
+    .fade-up.delay-2 { transition-delay: 0.2s; }
+    .fade-up.delay-3 { transition-delay: 0.3s; }
+    .fade-up.delay-4 { transition-delay: 0.4s; }
+
+    /* ── RESPONSIVE ────────────────────────────────── */
+    @media (max-width: 1024px) {
+      nav { padding: 0 24px; }
+      .nav-links { gap: 20px; }
+
+      .hero { padding: 100px 40px 60px; flex-direction: column; text-align: center; gap: 60px; }
+      .hero-content { max-width: 100%; }
+      .hero-sub { margin: 0 auto 44px; }
+      .hero-actions { justify-content: center; }
+      .hero-stats { justify-content: center; }
+      .hero-phones { width: 100%; height: 400px; }
+      .phone-main { width: 180px; height: 380px; }
+      .phone-left, .phone-right { width: 150px; height: 320px; }
+
+      section { padding: 80px 40px; }
+
+      .features-grid { grid-template-columns: 1fr 1fr; }
+
+      .showcase { grid-template-columns: 1fr; gap: 48px; }
+      .showcase-card { max-width: 420px; }
+
+      .challenges { grid-template-columns: 1fr; gap: 48px; }
+
+      .screens-header { grid-template-columns: 1fr; }
+
+      footer { padding: 32px 40px; }
+    }
+
+    @media (max-width: 640px) {
+      nav { padding: 0 20px; }
+      .nav-links { display: none; }
+
+      .hero { padding: 90px 24px 60px; }
+      .hero h1 { font-size: 44px; }
+
+      section { padding: 64px 24px; }
+
+      .features-grid { grid-template-columns: 1fr; }
+
+      .contributors-grid { grid-template-columns: 1fr; }
+
+      footer { padding: 28px 24px; flex-direction: column; align-items: flex-start; gap: 16px; }
+      .footer-links { flex-wrap: wrap; gap: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <img src="icon.png" alt="HiddenBites icon" />
+    <span>HIDDEN<b>BITES</b></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#features">Features</a></li>
+    <li><a href="#challenges">Challenges</a></li>
+    <li><a href="#community">Community</a></li>
+    <li><a href="https://testflight.apple.com" class="nav-cta">Join Beta</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg-circle"></div>
+  <div class="hero-bg-dots"></div>
+
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="dot"></span>
+      Now in Public Beta
+    </div>
+
+    <h1>Discover<br/><em>hidden gems</em><br/>near you</h1>
+
+    <p class="hero-sub">Real food spots curated by locals — not algorithms, not tourists. The places that don't show up on Google.</p>
+
+    <div class="hero-actions">
+      <a href="https://testflight.apple.com" class="btn-primary">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+        Download for iOS
+      </a>
+      <a href="#features" class="btn-secondary">
+        See how it works →
+      </a>
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-number">500+</div>
+        <div class="stat-label">Hidden spots</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">30+</div>
+        <div class="stat-label">Cities covered</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">100%</div>
+        <div class="stat-label">Community-curated</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-phones">
+    <div class="phone-frame phone-left">
+      <img src="screen3.png" alt="Map screen" />
+    </div>
+    <div class="phone-frame phone-main">
+      <img src="screen1.png" alt="Explore screen" />
+    </div>
+    <div class="phone-frame phone-right">
+      <img src="screen4.png" alt="Search screen" />
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features" id="features">
+  <div class="features-header">
+    <div>
+      <span class="section-label">What you get</span>
+      <h2 class="section-title">Built for real<br/><em>food explorers</em></h2>
+    </div>
+    <p class="section-sub">Every feature exists to help you find the places locals love — and share the ones you've discovered.</p>
+  </div>
+
+  <div class="features-grid">
+    <div class="feature-card fade-up">
+      <span class="feature-icon">🗺️</span>
+      <h3>Explore & Discover</h3>
+      <p>Browse spots near you on an interactive map or scroll curated lists by category. Every entry is community-approved.</p>
+      <span class="feature-tag">Map · Near You · Categories</span>
+    </div>
+    <div class="feature-card fade-up delay-1">
+      <span class="feature-icon">📍</span>
+      <h3>Submit a Spot</h3>
+      <p>Know a gem that nobody's talking about? Submit it. Share the must-order dish, an insider tip, and the story behind the place.</p>
+      <span class="feature-tag">Submit · Curate · Get Reviewed</span>
+    </div>
+    <div class="feature-card fade-up delay-2">
+      <span class="feature-icon">📁</span>
+      <h3>Build Collections</h3>
+      <p>Save spots, build personal collections, and track where you've been. Your own private food atlas, always in your pocket.</p>
+      <span class="feature-tag">Save · Collect · Track</span>
+    </div>
+    <div class="feature-card fade-up delay-3">
+      <span class="feature-icon">🏆</span>
+      <h3>Community Challenges</h3>
+      <p>Vote on the best ramen in Berlin. Find the ultimate taco in Mexico City. Community challenges surface the very best spots.</p>
+      <span class="feature-tag">Vote · Nominate · Win</span>
+    </div>
+    <div class="feature-card fade-up delay-4">
+      <span class="feature-icon">💎</span>
+      <h3>Hidden Gem Score</h3>
+      <p>Our algorithm rewards spots that are genuinely under the radar. The lower the tourist traffic, the higher the gem score.</p>
+      <span class="feature-tag">Authentic · Local · Unique</span>
+    </div>
+    <div class="feature-card fade-up delay-1">
+      <span class="feature-icon">🏅</span>
+      <h3>Earn Badges</h3>
+      <p>Top contributors earn badges: Local Expert, Hidden Gem, Foodie Pro. The more you share, the more your profile grows.</p>
+      <span class="feature-tag">Badges · Leaderboard · Reputation</span>
+    </div>
+  </div>
+</section>
+
+<!-- SPOT SHOWCASE -->
+<section class="showcase" id="showcase">
+  <div>
+    <span class="section-label">Spot Detail</span>
+    <h2 class="section-title">Every spot tells<br/>a <em>real story</em></h2>
+    <p class="section-sub" style="margin-bottom: 32px;">Not just an address. Each spot comes with a must-order dish, an insider tip, and everything you need to actually enjoy the place.</p>
+
+    <ul style="list-style:none; display:flex; flex-direction:column; gap:12px;">
+      <li style="display:flex; align-items:center; gap:12px; font-size:15px; color:rgba(255,255,255,0.6); font-weight:500;">
+        <span style="width:28px;height:28px;border-radius:50%;background:rgba(232,100,42,0.25);display:flex;align-items:center;justify-content:center;font-size:13px;">✓</span>
+        Must-order dish with description
+      </li>
+      <li style="display:flex; align-items:center; gap:12px; font-size:15px; color:rgba(255,255,255,0.6); font-weight:500;">
+        <span style="width:28px;height:28px;border-radius:50%;background:rgba(232,100,42,0.25);display:flex;align-items:center;justify-content:center;font-size:13px;">✓</span>
+        Insider tip from the contributor
+      </li>
+      <li style="display:flex; align-items:center; gap:12px; font-size:15px; color:rgba(255,255,255,0.6); font-weight:500;">
+        <span style="width:28px;height:28px;border-radius:50%;background:rgba(232,100,42,0.25);display:flex;align-items:center;justify-content:center;font-size:13px;">✓</span>
+        Price level, opening hours & dietary flags
+      </li>
+      <li style="display:flex; align-items:center; gap:12px; font-size:15px; color:rgba(255,255,255,0.6); font-weight:500;">
+        <span style="width:28px;height:28px;border-radius:50%;background:rgba(232,100,42,0.25);display:flex;align-items:center;justify-content:center;font-size:13px;">✓</span>
+        Community reviews & ratings
+      </li>
+    </ul>
+  </div>
+
+  <div>
+    <div class="showcase-card fade-up">
+      <img src="screen2.png" alt="Spot detail screen" class="showcase-card-img" />
+      <div class="showcase-card-body">
+        <div class="badge-row">
+          <span class="badge badge-gem">💎 Hidden Gem</span>
+          <span class="badge badge-verified">✅ Local Verified</span>
+        </div>
+        <div class="spot-category">🍽️ Restaurant · <span style="background:#FFF0E8;color:#E8642A;padding:2px 8px;border-radius:50px;font-weight:700;font-size:11px;">$</span></div>
+        <div class="spot-name">Xi'an Famous Foods</div>
+        <div class="spot-location">📍 Flushing, New York, USA</div>
+        <div class="spot-rating">★★★★☆ <span style="color:#888;font-weight:500;">4.0 (1 review)</span></div>
+        <div class="must-order-box">
+          <div class="must-order-label">Must Order</div>
+          <div class="must-order-title">Spicy Cumin Lamb Biang Biang Noodles</div>
+        </div>
+        <div class="insider-tip-box">
+          <div class="insider-label">💡 Insider Tip</div>
+          <div class="insider-text">The Flushing location has more soul than the Manhattan branches. Cash moves faster.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- APP SCREENS STRIP -->
+<section class="screens-section" id="screens">
+  <div class="screens-header">
+    <div>
+      <span class="section-label">The App</span>
+      <h2 class="section-title">Designed to feel<br/><em>effortless</em></h2>
+    </div>
+    <p class="section-sub">Clean, fast, and intuitive. From the explore feed to the map to submitting your own spot — everything just works.</p>
+  </div>
+
+  <div class="screens-strip">
+    <div class="screen-item fade-up">
+      <img src="screen1.png" alt="Explore screen" />
+    </div>
+    <div class="screen-item fade-up delay-1">
+      <img src="screen3.png" alt="Map screen" />
+    </div>
+    <div class="screen-item fade-up delay-2">
+      <img src="screen2.png" alt="Spot detail" />
+    </div>
+    <div class="screen-item fade-up delay-3">
+      <img src="screen4.png" alt="Search screen" />
+    </div>
+  </div>
+</section>
+
+<!-- CHALLENGES -->
+<section class="challenges" id="challenges">
+  <div>
+    <span class="section-label">Community Challenges</span>
+    <h2 class="section-title">Let the community<br/><em>decide</em></h2>
+    <p class="section-sub" style="margin-bottom: 36px;">Admins launch city-wide challenges. Users nominate their spots. The community votes. The best hidden gem wins.</p>
+    <a href="https://testflight.apple.com" class="btn-primary" style="display:inline-flex;">
+      Join & vote now →
+    </a>
+  </div>
+
+  <div class="challenge-cards">
+    <div class="challenge-card active fade-up">
+      <div class="challenge-emoji">🍜</div>
+      <div class="challenge-info">
+        <div class="challenge-title">Best Ramen in Berlin</div>
+        <div class="challenge-meta">
+          📍 Berlin
+          <span class="challenge-status status-voting"><span class="status-dot"></span>Voting open</span>
+        </div>
+      </div>
+      <div style="font-size:13px;color:var(--gray500);font-weight:600;">14 spots</div>
+    </div>
+    <div class="challenge-card fade-up delay-1">
+      <div class="challenge-emoji">🌮</div>
+      <div class="challenge-info">
+        <div class="challenge-title">Hidden Tacos — Madrid</div>
+        <div class="challenge-meta">
+          📍 Madrid
+          <span class="challenge-status status-active"><span class="status-dot"></span>Nominate now</span>
+        </div>
+      </div>
+      <div style="font-size:13px;color:var(--gray500);font-weight:600;">9 spots</div>
+    </div>
+    <div class="challenge-card fade-up delay-2">
+      <div class="challenge-emoji">☕</div>
+      <div class="challenge-info">
+        <div class="challenge-title">Specialty Coffee — Tokyo</div>
+        <div class="challenge-meta">
+          📍 Tokyo
+          <span class="challenge-status status-active"><span class="status-dot"></span>Nominate now</span>
+        </div>
+      </div>
+      <div style="font-size:13px;color:var(--gray500);font-weight:600;">7 spots</div>
+    </div>
+    <div class="challenge-card fade-up delay-3">
+      <div class="challenge-emoji">🥐</div>
+      <div class="challenge-info">
+        <div class="challenge-title">Best Bakery — Paris</div>
+        <div class="challenge-meta">
+          📍 Paris
+          <span class="challenge-status status-voting"><span class="status-dot"></span>Voting open</span>
+        </div>
+      </div>
+      <div style="font-size:13px;color:var(--gray500);font-weight:600;">11 spots</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTRIBUTORS -->
+<section class="contributors" id="community">
+  <div class="contributors-header">
+    <span class="section-label">Top Contributors</span>
+    <h2 class="section-title">The explorers behind<br/><em>the gems</em></h2>
+    <p class="section-sub" style="margin: 0 auto; text-align:center;">Real people who love food and know their cities. Their spots are your next great meal.</p>
+  </div>
+
+  <div class="contributors-grid">
+    <div class="contributor-card fade-up">
+      <div class="contributor-avatar">
+        M
+        <div class="contributor-rank rank-1">1</div>
+      </div>
+      <div class="contributor-name">Marco Bianchi</div>
+      <div class="contributor-city">📍 Rome</div>
+      <div class="contributor-badge-pill">🏅 Local Expert</div>
+      <div class="contributor-spots"><b>5</b> approved spots</div>
+    </div>
+    <div class="contributor-card fade-up delay-1">
+      <div class="contributor-avatar" style="background: linear-gradient(135deg, #888 0%, #555 100%);">
+        L
+        <div class="contributor-rank rank-2">2</div>
+      </div>
+      <div class="contributor-name">Lena Müller</div>
+      <div class="contributor-city">📍 Berlin</div>
+      <div class="contributor-badge-pill">💎 Hidden Gem</div>
+      <div class="contributor-spots"><b>5</b> approved spots</div>
+    </div>
+    <div class="contributor-card fade-up delay-2">
+      <div class="contributor-avatar" style="background: linear-gradient(135deg, #CD7F32 0%, #a0622a 100%);">
+        Y
+        <div class="contributor-rank rank-3">3</div>
+      </div>
+      <div class="contributor-name">Yuki Tanaka</div>
+      <div class="contributor-city">📍 Tokyo</div>
+      <div class="contributor-badge-pill">👨‍🍳 Foodie Pro</div>
+      <div class="contributor-spots"><b>5</b> approved spots</div>
+    </div>
+  </div>
+</section>
+
+<!-- DOWNLOAD CTA -->
+<section class="download-cta">
+  <span class="section-label" style="display:block;text-align:center;margin-bottom:20px;">Get the app</span>
+  <h2 class="section-title" style="text-align:center;margin-bottom:16px;">Your next hidden gem<br/><em>is waiting</em></h2>
+  <p class="section-sub">Stop eating at the same places. Join a community of food explorers and start discovering what your city is hiding.</p>
+
+  <a href="https://testflight.apple.com" class="app-store-btn">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+    Download on the App Store
+  </a>
+  <p class="beta-note">Currently in public beta via TestFlight — free to join</p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">
+    <img src="icon.png" alt="HiddenBites" />
+    <span>HIDDEN<span style="color:var(--orange)">BITES</span></span>
+  </div>
+  <ul class="footer-links">
+    <li><a href="#">Privacy Policy</a></li>
+    <li><a href="#">Community Guidelines</a></li>
+    <li><a href="mailto:hey@kai-thomas.com">Contact</a></li>
+  </ul>
+  <span class="footer-copy">© 2026 HiddenBites. All rights reserved.</span>
+</footer>
+
+<script>
+  // Scroll-triggered fade-up animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
