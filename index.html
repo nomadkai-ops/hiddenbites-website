@@ -254,11 +254,15 @@
     /* ─── SCREENS ──────────────────────────────────── */
     .screens-section { background: var(--cream); padding: 100px 0; overflow: hidden; }
     .screens-header { display: grid; grid-template-columns: 1fr 1fr; align-items: end; gap: 40px; margin-bottom: 60px; }
-    .screens-strip { display: flex; gap: 20px; overflow-x: auto; padding: 20px 40px 40px; padding-left: max(40px, calc((100vw - 1200px) / 2 + 40px)); scrollbar-width: none; }
-    .screens-strip::-webkit-scrollbar { display: none; }
+    .screens-strip {
+      display: flex; gap: 24px;
+      justify-content: center;
+      padding: 20px 40px 40px;
+      flex-wrap: nowrap;
+    }
     .screen-item { flex: 0 0 auto; border-radius: 36px; overflow: hidden; box-shadow: 0 24px 60px rgba(0,0,0,0.14); transition: transform 0.3s; }
     .screen-item:hover { transform: translateY(-8px); }
-    .screen-item img { display: block; height: 480px; width: auto; }
+    .screen-item img { display: block; height: 520px; width: auto; }
 
     /* ─── CHALLENGES ───────────────────────────────── */
     .challenges { background: var(--white); padding: 100px 0; }
@@ -347,6 +351,9 @@
       .features { padding: 80px 0; }
       .features-grid { grid-template-columns: 1fr 1fr; }
       .screens-header { grid-template-columns: 1fr; }
+      .screens-strip { overflow-x: auto; justify-content: flex-start; padding-left: 24px; scrollbar-width: none; }
+      .screens-strip::-webkit-scrollbar { display: none; }
+      .screen-item img { height: 400px; }
     }
     @media (max-width: 600px) {
       .nav-links li:not(:last-child) { display: none; }
@@ -407,7 +414,7 @@
     <!-- 3-PHONE CLUSTER -->
     <div class="hero-phones" id="heroPhones">
       <div class="phone-frame phone-left"><img src="screen3.png" alt="Map" /></div>
-      <div class="phone-frame phone-main"><img src="screen1.png" alt="Explore" /></div>
+      <div class="phone-frame phone-main"><img src="02.png" alt="Map" /></div>
       <div class="phone-frame phone-right"><img src="screen4.png" alt="Search" /></div>
     </div>
 
@@ -530,10 +537,9 @@
     </div>
   </div>
   <div class="screens-strip">
-    <div class="screen-item fade-up"><img src="screen1.png" alt="Explore" /></div>
-    <div class="screen-item fade-up d1"><img src="screen3.png" alt="Map" /></div>
-    <div class="screen-item fade-up d2"><img src="screen2.png" alt="Spot detail" /></div>
-    <div class="screen-item fade-up d3"><img src="screen4.png" alt="Search" /></div>
+    <div class="screen-item fade-up"><img src="04.png" alt="Explore" /></div>
+    <div class="screen-item fade-up d1"><img src="02.png" alt="Map" /></div>
+    <div class="screen-item fade-up d2"><img src="03.png" alt="Submit" /></div>
   </div>
 </section>
 
