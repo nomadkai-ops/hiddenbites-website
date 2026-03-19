@@ -114,12 +114,17 @@
     /* ── HERO ──────────────────────────────────────── */
     .hero {
       min-height: 100vh;
-      display: flex;
-      align-items: center;
       padding: 100px 80px 80px;
       position: relative;
       overflow: hidden;
       background: var(--cream);
+    }
+
+    .hero-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
     }
 
     .hero-bg-circle {
@@ -346,6 +351,12 @@
       padding: 100px 80px;
     }
 
+    .section-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
     .section-label {
       display: inline-block;
       font-size: 11px;
@@ -461,10 +472,6 @@
     .showcase {
       background: var(--gray900);
       color: #fff;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 80px;
-      align-items: center;
     }
 
     .showcase .section-title { color: #fff; }
@@ -647,10 +654,6 @@
     /* ── CHALLENGES ────────────────────────────────── */
     .challenges {
       background: var(--white);
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 80px;
-      align-items: center;
     }
 
     .challenge-cards {
@@ -949,7 +952,8 @@
       nav { padding: 0 24px; }
       .nav-links { gap: 20px; }
 
-      .hero { padding: 100px 40px 60px; flex-direction: column; text-align: center; gap: 60px; }
+      .hero { padding: 100px 40px 60px; }
+      .hero-inner { flex-direction: column; text-align: center; gap: 60px; }
       .hero-content { max-width: 100%; }
       .hero-sub { margin: 0 auto 44px; }
       .hero-actions { justify-content: center; }
@@ -962,10 +966,12 @@
 
       .features-grid { grid-template-columns: 1fr 1fr; }
 
-      .showcase { grid-template-columns: 1fr; gap: 48px; }
-      .showcase-card { max-width: 420px; }
+      .section-inner[style*="grid-template-columns:1fr 1fr"] {
+        grid-template-columns: 1fr !important;
+        gap: 48px !important;
+      }
 
-      .challenges { grid-template-columns: 1fr; gap: 48px; }
+      .showcase-card { max-width: 420px; }
 
       .screens-header { grid-template-columns: 1fr; }
 
@@ -1011,6 +1017,7 @@
   <div class="hero-bg-circle"></div>
   <div class="hero-bg-dots"></div>
 
+  <div class="hero-inner">
   <div class="hero-content">
     <div class="hero-badge">
       <span class="dot"></span>
@@ -1057,11 +1064,12 @@
     <div class="phone-frame phone-right">
       <img src="screen4.png" alt="Search screen" />
     </div>
-  </div>
+  </div> <!-- hero-inner -->
 </section>
 
 <!-- FEATURES -->
 <section class="features" id="features">
+  <div class="section-inner">
   <div class="features-header">
     <div>
       <span class="section-label">What you get</span>
@@ -1108,10 +1116,12 @@
       <span class="feature-tag">Badges · Leaderboard · Reputation</span>
     </div>
   </div>
+  </div> <!-- section-inner -->
 </section>
 
 <!-- SPOT SHOWCASE -->
 <section class="showcase" id="showcase">
+  <div class="section-inner" style="display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;">
   <div>
     <span class="section-label">Spot Detail</span>
     <h2 class="section-title">Every spot tells<br/>a <em>real story</em></h2>
@@ -1160,10 +1170,12 @@
       </div>
     </div>
   </div>
+  </div> <!-- section-inner -->
 </section>
 
 <!-- APP SCREENS STRIP -->
 <section class="screens-section" id="screens">
+  <div class="section-inner">
   <div class="screens-header">
     <div>
       <span class="section-label">The App</span>
@@ -1186,10 +1198,12 @@
       <img src="screen4.png" alt="Search screen" />
     </div>
   </div>
+  </div> <!-- section-inner -->
 </section>
 
 <!-- CHALLENGES -->
 <section class="challenges" id="challenges">
+  <div class="section-inner" style="display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;">
   <div>
     <span class="section-label">Community Challenges</span>
     <h2 class="section-title">Let the community<br/><em>decide</em></h2>
@@ -1245,10 +1259,12 @@
       <div style="font-size:13px;color:var(--gray500);font-weight:600;">11 spots</div>
     </div>
   </div>
+  </div> <!-- section-inner -->
 </section>
 
 <!-- CONTRIBUTORS -->
 <section class="contributors" id="community">
+  <div class="section-inner">
   <div class="contributors-header">
     <span class="section-label">Top Contributors</span>
     <h2 class="section-title">The explorers behind<br/><em>the gems</em></h2>
@@ -1287,10 +1303,12 @@
       <div class="contributor-spots"><b>5</b> approved spots</div>
     </div>
   </div>
+  </div> <!-- section-inner -->
 </section>
 
 <!-- DOWNLOAD CTA -->
 <section class="download-cta">
+  <div class="section-inner" style="text-align:center;">
   <span class="section-label" style="display:block;text-align:center;margin-bottom:20px;">Get the app</span>
   <h2 class="section-title" style="text-align:center;margin-bottom:16px;">Your next hidden gem<br/><em>is waiting</em></h2>
   <p class="section-sub">Stop eating at the same places. Join a community of food explorers and start discovering what your city is hiding.</p>
@@ -1300,6 +1318,7 @@
     Download on the App Store
   </a>
   <p class="beta-note">Currently in public beta via TestFlight — free to join</p>
+  </div> <!-- section-inner -->
 </section>
 
 <!-- FOOTER -->
@@ -1311,22 +1330,14 @@
   <ul class="footer-links">
     <li><a href="#">Privacy Policy</a></li>
     <li><a href="#">Community Guidelines</a></li>
-    <li><a href="mailto:hey@kai-thomas.com">Contact</a></li>
+    <li><a href="/cdn-cgi/l/email-protection#61090418210a00084c15090e0c00124f020e0c">Contact</a></li>
   </ul>
   <span class="footer-copy">© 2026 HiddenBites. All rights reserved.</span>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   // Scroll-triggered fade-up animations
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-      }
-    });
-  }, { threshold: 0.12 });
-
-  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
-</script>
-</body>
-</html>
+        entry.target.classList.add('visible')
