@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HiddenBites</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --orange: #E8642A;
+      --orange-light: #FFF0E8;
+      --bg: #F7F7F8;
+      --white: #ffffff;
+      --gray-900: #1A1A1A;
+      --gray-600: #505050;
+      --gray-400: #AAAAAA;
+      --gray-100: #F0F0F0;
+      --border: #EBEBEB;
+      --radius: 18px;
+      --shadow: 0 2px 16px rgba(0,0,0,0.07);
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--gray-900);
+      min-height: 100vh;
+    }
+
+    /* ── Loading / error states ─── */
+    #state-loading, #state-error, #state-private {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 40px 24px;
+      text-align: center;
+    }
+    #state-loading { display: flex; }
+
+    .spinner {
+      width: 40px; height: 40px;
+      border: 3px solid var(--border);
+      border-top-color: var(--orange);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin-bottom: 16px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .state-emoji { font-size: 52px; margin-bottom: 16px; }
+    .state-title { font-family: 'Syne', sans-serif; font-size: 22px; color: var(--gray-900); margin-bottom: 8px; }
+    .state-sub { font-size: 15px; color: var(--gray-400); line-height: 1.6; max-width: 320px; }
+
+    /* ── Collection page ─── */
+    #state-collection { display: none; max-width: 560px; margin: 0 auto; padding: 0 0 60px; }
+
+    /* Top bar */
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 20px 0;
+      margin-bottom: 24px;
+    }
+    .logo {
+      display: flex; align-items: center; gap: 8px;
+      font-family: 'Syne', sans-serif; font-size: 17px; font-weight: 800;
+      color: var(--gray-900); text-decoration: none;
+    }
+    .logo-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--orange); }
+
+    /* Hero */
+    .hero {
+      margin: 0 16px 20px;
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 4px;
+      background: var(--orange);
+      border-radius: 4px 0 0 4px;
+    }
+    .hero-label {
+      font-size: 10px; font-weight: 600; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--orange);
+      margin-bottom: 8px;
+    }
+    .hero-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 26px; font-weight: 800;
+      line-height: 1.15; letter-spacing: -0.5px;
+      color: var(--gray-900);
+      margin-bottom: 6px;
+    }
+    .hero-desc {
+      font-size: 14px; color: var(--gray-600);
+      line-height: 1.55; margin-bottom: 16px;
+    }
+
+    /* Owner */
+    .owner {
+      display: flex; align-items: center; gap: 10px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+    }
+    .owner-avatar {
+      width: 34px; height: 34px; border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--orange-light);
+    }
+    .owner-name { font-size: 13px; font-weight: 600; color: var(--gray-900); }
+    .owner-handle { font-size: 11px; color: var(--gray-400); margin-top: 1px; }
+
+    /* CTA button */
+    .cta-wrap { padding: 0 16px 20px; }
+    .cta-btn {
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      width: 100%;
+      background: var(--orange);
+      color: #fff;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px; font-weight: 700;
+      border: none; border-radius: 14px;
+      padding: 17px 24px;
+      cursor: pointer;
+      text-decoration: none;
+      box-shadow: 0 6px 20px rgba(232,100,42,0.35);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .cta-btn:active { transform: scale(0.97); box-shadow: 0 3px 10px rgba(232,100,42,0.3); }
+    .cta-icon { font-size: 20px; }
+    .cta-sub {
+      text-align: center;
+      font-size: 12px; color: var(--gray-400);
+      margin-top: 10px;
+    }
+    .store-links { display: flex; justify-content: center; gap: 12px; margin-top: 10px; }
+    .store-link {
+      font-size: 12px; color: var(--orange);
+      text-decoration: none; font-weight: 600;
+    }
+    .store-link:hover { text-decoration: underline; }
+
+    /* Section header */
+    .section-head {
+      padding: 0 20px 10px;
+      font-size: 10px; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--gray-400);
+    }
+
+    /* Spot cards */
+    .spots { display: flex; flex-direction: column; gap: 10px; padding: 0 16px; }
+    .spot-card {
+      display: flex; align-items: center;
+      background: var(--white);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      text-decoration: none;
+      color: inherit;
+      transition: transform 0.15s;
+    }
+    .spot-card:hover { transform: translateY(-1px); }
+    .spot-img {
+      width: 88px; height: 88px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+    .spot-img-placeholder {
+      width: 88px; height: 88px;
+      background: var(--gray-100);
+      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 28px;
+    }
+    .spot-body { flex: 1; padding: 12px 10px; min-width: 0; }
+    .spot-name {
+      font-family: 'Syne', sans-serif;
+      font-size: 14px; font-weight: 800;
+      color: var(--gray-900); letter-spacing: -0.2px;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      margin-bottom: 3px;
+    }
+    .spot-location { font-size: 12px; color: var(--gray-400); margin-bottom: 2px; }
+    .spot-cat { font-size: 12px; color: #777; }
+    .spot-price {
+      font-size: 11px; font-weight: 700; color: var(--orange);
+      margin-top: 3px;
+    }
+    .spot-chevron { padding: 0 12px; color: var(--gray-400); font-size: 16px; flex-shrink: 0; }
+
+    /* Rating badge */
+    .spot-rating {
+      display: flex; align-items: center; gap: 3px;
+      background: #FEF3C7;
+      border-radius: 20px;
+      padding: 3px 8px;
+      font-size: 11px; font-weight: 700; color: #D97706;
+      margin-right: 6px; flex-shrink: 0;
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding: 32px 24px 0;
+      font-size: 12px; color: var(--gray-400);
+    }
+    .footer a { color: var(--orange); text-decoration: none; font-weight: 600; }
+
+    /* Fade-in */
+    .fade-in { animation: fadeIn 0.4s ease both; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+    .delay-1 { animation-delay: 0.05s; }
+    .delay-2 { animation-delay: 0.1s; }
+    .delay-3 { animation-delay: 0.15s; }
+  </style>
+</head>
+<body>
+
+  <!-- Loading -->
+  <div id="state-loading">
+    <div class="spinner"></div>
+    <p style="color: var(--gray-400); font-size: 14px;">Loading collection…</p>
+  </div>
+
+  <!-- Error -->
+  <div id="state-error">
+    <div class="state-emoji">😕</div>
+    <p class="state-title">Something went wrong</p>
+    <p class="state-sub">We couldn't load this collection. Try again later.</p>
+  </div>
+
+  <!-- Private / not found -->
+  <div id="state-private">
+    <div class="state-emoji">🔒</div>
+    <p class="state-title">Collection not found</p>
+    <p class="state-sub">This collection is private or no longer exists.</p>
+  </div>
+
+  <!-- Collection -->
+  <div id="state-collection">
+    <div class="topbar fade-in">
+      <a href="https://hiddenbites.app" class="logo">
+        <span class="logo-dot"></span>
+        HiddenBites
+      </a>
+    </div>
+
+    <!-- Hero -->
+    <div class="hero fade-in delay-1">
+      <p class="hero-label">📁 Collection</p>
+      <h1 class="hero-title" id="col-title">—</h1>
+      <p class="hero-desc" id="col-desc"></p>
+      <div class="owner">
+        <img id="owner-avatar" class="owner-avatar" src="" alt="" />
+        <div>
+          <p class="owner-name" id="owner-name">—</p>
+          <p class="owner-handle" id="owner-handle">—</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-wrap fade-in delay-2">
+      <a id="open-app-btn" class="cta-btn" href="#">
+        <span class="cta-icon">🍜</span>
+        Open in HiddenBites
+      </a>
+      <p class="cta-sub">Don't have the app yet?</p>
+      <div class="store-links">
+        <a class="store-link" href="https://apps.apple.com/app/hiddenbites/id6743270977" target="_blank">Download on App Store</a>
+        <span style="color:var(--border)">·</span>
+        <a class="store-link" href="https://play.google.com/store/apps/details?id=com.kaithomasdev.hiddenbites" target="_blank">Get on Google Play</a>
+      </div>
+    </div>
+
+    <!-- Spots -->
+    <p class="section-head fade-in delay-3" id="spots-label">SPOTS</p>
+    <div class="spots fade-in delay-3" id="spots-list"></div>
+
+    <div class="footer">
+      <p>Discover hidden food gems with <a href="https://hiddenbites.app">HiddenBites</a></p>
+    </div>
+  </div>
+
+  <script>
+    // ── Config ──────────────────────────────────────────────────────────
+    const SUPABASE_URL = 'https://rligvqsblzcqxerovskd.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJsaWd2cXNibHpjcXhlcm92c2tkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMzMzY1NjEsImV4cCI6MjA4ODkxMjU2MX0.YrGzxVJKgxKfkTome-Khjtx96NB-1lmNrOdq-JMlijo';
+
+    // ── Route detection ─────────────────────────────────────────────────
+    const path = window.location.pathname; // e.g. /collection/abc123
+    const match = path.match(/^\/collection\/([a-zA-Z0-9_-]+)/);
+
+    if (!match) {
+      // Not a collection URL — redirect to homepage
+      window.location.replace('https://hiddenbites.app');
+    } else {
+      const collectionId = match[1];
+      loadCollection(collectionId);
+    }
+
+    // ── Fetch & render ──────────────────────────────────────────────────
+    async function loadCollection(id) {
+      try {
+        // Fetch collection + owner
+        const colRes = await fetch(
+          `${SUPABASE_URL}/rest/v1/collections?id=eq.${id}&select=*,user:profiles!collections_user_id_fkey(id,display_name,username,avatar_url)`,
+          { headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` } }
+        );
+        const cols = await colRes.json();
+        if (!cols || cols.length === 0 || !cols[0].is_public) {
+          show('state-private'); return;
+        }
+        const col = cols[0];
+        const owner = col.user;
+
+        // Fetch items
+        const itemsRes = await fetch(
+          `${SUPABASE_URL}/rest/v1/collection_items?collection_id=eq.${id}&select=*,spot:spots(id,name,city,country,category,cover_image_url,price_level,average_rating,status)&order=sort_order.asc`,
+          { headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` } }
+        );
+        const allItems = await itemsRes.json();
+        const items = (allItems || []).filter(i => i.spot?.status === 'approved');
+
+        // Populate DOM
+        document.title = `${col.title} · HiddenBites`;
+        document.getElementById('col-title').textContent = col.title;
+
+        const descEl = document.getElementById('col-desc');
+        if (col.description) {
+          descEl.textContent = col.description;
+        } else {
+          descEl.style.display = 'none';
+        }
+
+        document.getElementById('owner-name').textContent = owner?.display_name || 'HiddenBites User';
+        document.getElementById('owner-handle').textContent = `@${owner?.username || '—'} · ${items.length} spot${items.length !== 1 ? 's' : ''}`;
+        const avatarEl = document.getElementById('owner-avatar');
+        avatarEl.src = owner?.avatar_url || `https://ui-avatars.com/api/?background=E0E0E0&color=9E9E9E&size=200&name=U`;
+        avatarEl.alt = owner?.display_name || '';
+
+        document.getElementById('open-app-btn').href = `hiddenbites://collection/${id}`;
+        document.getElementById('spots-label').textContent = `${items.length} HIDDEN GEM${items.length !== 1 ? 'S' : ''}`;
+
+        // Render spots
+        const container = document.getElementById('spots-list');
+        const CATEGORY_ICONS = {
+          restaurant: '🍽️', cafe: '☕', bar: '🍷', street_food: '🌮',
+          bakery: '🥐', market: '🛒', dessert: '🍰', food_truck: '🚚',
+        };
+        items.forEach(item => {
+          const s = item.spot;
+          const icon = CATEGORY_ICONS[s.category] || '📍';
+          const card = document.createElement('a');
+          card.className = 'spot-card';
+          card.href = `hiddenbites://spot/${s.id}`;
+          card.innerHTML = `
+            ${s.cover_image_url
+              ? `<img class="spot-img" src="${s.cover_image_url}" alt="${s.name}" loading="lazy" />`
+              : `<div class="spot-img-placeholder">${icon}</div>`
+            }
+            <div class="spot-body">
+              <p class="spot-name">${s.name}</p>
+              <p class="spot-location">📍 ${s.city}, ${s.country}</p>
+              <p class="spot-cat">${icon} ${s.category.replace('_', ' ')}</p>
+              ${s.price_level ? `<p class="spot-price">${s.price_level}</p>` : ''}
+            </div>
+            ${s.average_rating > 0 ? `<div class="spot-rating">⭐ ${s.average_rating.toFixed(1)}</div>` : ''}
+            <span class="spot-chevron">›</span>
+          `;
+          container.appendChild(card);
+        });
+
+        show('state-collection');
+      } catch (e) {
+        console.error(e);
+        show('state-error');
+      }
+    }
+
+    function show(id) {
+      document.getElementById('state-loading').style.display = 'none';
+      document.getElementById(id).style.display = id === 'state-collection' ? 'block' : 'flex';
+    }
+  </script>
+</body>
+</html>
