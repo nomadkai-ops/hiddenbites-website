@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>HiddenBites</title>
+<meta name="robots" content="noindex">
+<script>
+  // Smart store redirect for the "Verified Hidden Bite" sticker QR (hiddenbites.app/s)
+  var ua = navigator.userAgent || '';
+  var target =
+    /iPhone|iPad|iPod/i.test(ua) ? 'https://apps.apple.com/app/id6760585986' :
+    /Android/i.test(ua)          ? 'https://play.google.com/store/apps/details?id=com.kaithomasdev.hiddenbites' :
+                                   'https://hiddenbites.app';
+  location.replace(target);
+</script>
+<meta http-equiv="refresh" content="1;url=https://hiddenbites.app">
+</head><body></body></html>
