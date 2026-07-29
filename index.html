@@ -143,26 +143,12 @@
     .stat-number i { font-style: italic; color: var(--gold); font-size: 22px; }
     .stat-label { font-size: 12.5px; color: var(--warmgray); font-weight: 600; margin-top: 2px; }
 
-    /* polaroid phone cluster */
-    .hero-phones { flex: 0 0 auto; position: relative; width: 470px; height: 590px; transition: transform 0.5s ease-out; }
-    .polaroid {
-      position: absolute; background: var(--card); border: 1.5px solid var(--border);
-      padding: 10px 10px 14px; border-radius: 14px;
-      box-shadow: 0 18px 44px rgba(25,21,18,0.16);
+    /* hero app shot */
+    .hero-phones { flex: 0 0 auto; position: relative; width: 420px; transition: transform 0.5s ease-out; }
+    .hero-shot {
+      display: block; width: 100%; height: auto; border-radius: 24px;
+      border: 1.5px solid var(--border); box-shadow: 0 24px 60px rgba(25,21,18,0.13);
     }
-    .polaroid img { display: block; border-radius: 8px; object-fit: cover; object-position: top; }
-    .polaroid .tape {
-      position: absolute; top: -12px; left: 50%; transform: translateX(-50%) rotate(-3deg);
-      width: 74px; height: 24px; background: rgba(232,100,42,0.25); border-radius: 2px;
-      backdrop-filter: blur(1px);
-    }
-    .polaroid .cap { font-family: var(--serif); font-style: italic; font-size: 12px; color: var(--warmgray); text-align: center; margin-top: 8px; }
-    .pol-main { width: 250px; left: 50%; top: 12px; transform: translateX(-50%) rotate(1.5deg); z-index: 3; }
-    .pol-main img { width: 230px; height: 470px; }
-    .pol-left { width: 190px; top: 90px; left: -8px; transform: rotate(-6deg); z-index: 2; }
-    .pol-left img { width: 170px; height: 340px; }
-    .pol-right { width: 190px; top: 90px; right: -8px; transform: rotate(6deg); z-index: 2; }
-    .pol-right img { width: 170px; height: 340px; }
     .hero-spark { position: absolute; font-size: 20px; color: var(--gold); animation: twinkle 2.6s ease-in-out infinite; z-index: 4; }
     @keyframes twinkle { 0%,100%{opacity:.25;transform:scale(.8) rotate(0)} 50%{opacity:1;transform:scale(1.15) rotate(20deg)} }
 
@@ -417,12 +403,16 @@
     /* ─── SCREENS ─── */
     .screens-section { padding: 0 0 110px; overflow: hidden; }
     .screens-header { display: grid; grid-template-columns: 1fr 1fr; align-items: end; gap: 40px; margin-bottom: 56px; }
-    .screens-strip { display: flex; gap: 26px; justify-content: center; padding: 24px 40px 40px; flex-wrap: nowrap; }
-    .screen-item { flex: 0 0 auto; border-radius: 18px; overflow: hidden; border: 1.5px solid var(--border); background: var(--card); padding: 9px; box-shadow: 0 16px 40px rgba(25,21,18,0.12); transition: transform 0.3s; }
-    .screen-item:nth-child(1) { transform: rotate(-2deg); } .screen-item:nth-child(2) { transform: rotate(1.2deg); }
-    .screen-item:nth-child(3) { transform: rotate(-1deg); } .screen-item:nth-child(4) { transform: rotate(2deg); }
-    .screen-item:hover { transform: rotate(0) translateY(-8px) scale(1.02); }
-    .screen-item img { display: block; height: 500px; width: auto; border-radius: 10px; }
+    .screens-strip {
+      display: flex; gap: 20px; padding: 8px 32px 44px; scroll-snap-type: x mandatory;
+      overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch;
+    }
+    .screens-strip::-webkit-scrollbar { display: none; }
+    .screen-item {
+      flex: 0 0 auto; height: 620px; width: auto; display: block; scroll-snap-align: center;
+      border-radius: 20px; border: 1.5px solid var(--border2); transition: transform 0.3s;
+    }
+    .screen-item:hover { transform: translateY(-8px); }
 
     /* ─── COMMUNITY ─── */
     .community { background: var(--card); border-top: 1.5px solid var(--border); border-bottom: 1.5px solid var(--border); padding: 110px 0; }
@@ -525,13 +515,12 @@
       .hero-content { max-width: 100%; }
       .hero-sub { margin: 0 auto 40px; }
       .hero-actions, .hero-stats { justify-content: center; }
-      .hero-phones { width: 100%; max-width: 470px; height: 560px; transform: scale(0.92); }
+      .hero-phones { width: 100%; max-width: 440px; }
       .eyebrow { justify-content: center; }
       .features-grid { grid-template-columns: 1fr 1fr; }
       .screens-header { grid-template-columns: 1fr; }
-      .screens-strip { overflow-x: auto; justify-content: flex-start; padding-left: 20px; scrollbar-width: none; }
-      .screens-strip::-webkit-scrollbar { display: none; }
-      .screen-item img { height: 400px; }
+      .screens-strip { padding-left: 20px; padding-right: 20px; }
+      .screen-item { height: 520px; }
       .pack-arena { height: 430px; }
       .pack-arena.opened .tc-1 { transform: translateX(-120px) translateY(-8px) rotate(-10deg) scale(0.86); }
       .pack-arena.opened .tc-3 { transform: translateX(120px) translateY(-8px) rotate(10deg) scale(0.86); }
@@ -539,7 +528,8 @@
     @media (max-width: 620px) {
       .nav-links li:not(:last-child) { display: none; }
       .hero h1 { font-size: 46px; }
-      .hero-phones { height: 500px; transform: scale(0.8); margin: -30px 0; }
+      .hero-phones { max-width: 340px; }
+      .screen-item { height: 460px; }
       .features-grid { grid-template-columns: 1fr; }
       .marquee-item { font-size: 15px; }
       .map-container { height: 300px; border-radius: 16px; }
@@ -607,14 +597,11 @@
       </div>
     </div>
 
-    <!-- POLAROID PHONE CLUSTER -->
     <div class="hero-phones" id="heroPhones">
-      <span class="hero-spark" style="top:24px;left:34px;">✦</span>
-      <span class="hero-spark" style="bottom:70px;right:18px;animation-delay:1.2s;">✦</span>
-      <span class="hero-spark" style="top:52%;left:-6px;font-size:14px;animation-delay:0.7s;">✧</span>
-      <div class="polaroid pol-left"><span class="tape"></span><img src="screen3.png" alt="Map view" /><div class="cap">the map</div></div>
-      <div class="polaroid pol-right"><span class="tape"></span><img src="screen4.png" alt="Search view" /><div class="cap">the search</div></div>
-      <div class="polaroid pol-main"><span class="tape"></span><img src="screen1.png" alt="Spot detail" /><div class="cap">a real hidden gem, Rome</div></div>
+      <span class="hero-spark" style="top:24px;left:-10px;">✦</span>
+      <span class="hero-spark" style="bottom:90px;right:6px;animation-delay:1.2s;">✦</span>
+      <span class="hero-spark" style="top:52%;left:-18px;font-size:14px;animation-delay:0.7s;">✧</span>
+      <img src="hero-app.jpg" alt="The HiddenBites explore feed" class="hero-shot" />
     </div>
   </div>
 </section>
@@ -793,10 +780,16 @@
     </div>
   </div>
   <div class="screens-strip">
-    <div class="screen-item rv"><img src="04.png" alt="Explore feed" /></div>
-    <div class="screen-item rv d1"><img src="02.png" alt="Map" /></div>
-    <div class="screen-item rv d2"><img src="03.png" alt="Submit a spot" /></div>
-    <div class="screen-item rv d3"><img src="05.png" alt="Saved collections" /></div>
+    <img src="shot-01.jpg" alt="Discover feed" class="screen-item" />
+    <img src="shot-02.jpg" alt="Hidden gems near you" class="screen-item" loading="lazy" />
+    <img src="shot-04.jpg" alt="Map view" class="screen-item" loading="lazy" />
+    <img src="shot-09.jpg" alt="Spot detail" class="screen-item" loading="lazy" />
+    <img src="shot-10.jpg" alt="Must order and insider tip" class="screen-item" loading="lazy" />
+    <img src="shot-03.jpg" alt="Leaderboard" class="screen-item" loading="lazy" />
+    <img src="shot-08.jpg" alt="Food passport" class="screen-item" loading="lazy" />
+    <img src="shot-07.jpg" alt="Sticker album" class="screen-item" loading="lazy" />
+    <img src="shot-06.jpg" alt="Local expert progress" class="screen-item" loading="lazy" />
+    <img src="shot-05.jpg" alt="Profile" class="screen-item" loading="lazy" />
   </div>
 </section>
 
