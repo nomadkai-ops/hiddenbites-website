@@ -94,6 +94,12 @@
     .store-links { display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 6px; }
     .store-link { font-size: 13px; color: var(--ink); text-decoration: none; font-weight: 700; border-bottom: 1.5px dashed var(--warmgray); transition: color 0.2s, border-color 0.2s; }
     .store-link:hover { color: var(--orange); border-color: var(--orange); }
+    .inapp-hint {
+      margin: 16px auto 0; max-width: 340px; text-align: center;
+      font-size: 12.5px; font-weight: 600; line-height: 1.5; color: var(--orange);
+      background: var(--orange-light); border: 1px dashed rgba(232,100,42,0.4);
+      border-radius: 12px; padding: 10px 12px;
+    }
 
     .section-head {
       display: flex; align-items: center; gap: 8px; padding: 30px 4px 12px;
@@ -203,10 +209,11 @@
       <a id="open-app-btn" class="cta-btn" href="#">Open in HiddenBites →</a>
       <p class="cta-sub">Don't have the app yet?</p>
       <div class="store-links">
-        <a class="store-link" href="https://apps.apple.com/app/hiddenbites-find-local-gems/id6760585986" target="_blank" rel="noopener">App Store</a>
+        <a class="store-link" data-store="ios" href="https://apps.apple.com/app/hiddenbites-find-local-gems/id6760585986">App Store</a>
         <span style="color:var(--border)">·</span>
-        <a class="store-link" href="https://play.google.com/store/apps/details?id=com.kaithomasdev.hiddenbites" target="_blank" rel="noopener">Google Play</a>
+        <a class="store-link" data-store="android" href="https://play.google.com/store/apps/details?id=com.kaithomasdev.hiddenbites">Google Play</a>
       </div>
+      <p class="inapp-hint" data-inapp-hint hidden></p>
     </div>
 
     <p class="section-head fade-in d3" id="spots-label">Spots</p>
@@ -314,5 +321,6 @@
       document.getElementById(id).style.display = id === 'state-collection' ? 'block' : 'flex';
     }
   </script>
+  <script src="/store.js"></script>
 </body>
 </html>
