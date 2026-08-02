@@ -3,60 +3,442 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>404 - HiddenBites</title>
-  <link rel="icon" href="/icon.png" />
+  <title>HiddenBites</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,700;0,9..144,900;1,9..144,700&family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
     :root {
-      --paper: #F4F0E9; --card: #FFFDF8; --border: #F0E4D2; --ink: #191512;
-      --warmgray: #A79E90; --orange: #E8642A; --gold: #B4881F;
-      --serif: 'Fraunces', Georgia, serif; --sans: 'Plus Jakarta Sans', sans-serif;
+      --orange: #E8642A;
+      --orange-light: #FFF0E8;
+      --purple: #8B5CF6;
+      --purple-light: #F5F3FF;
+      --blue: #3B82F6;
+      --blue-light: #EFF6FF;
+      --green: #22C55E;
+      --green-light: #F0FDF4;
+      --amber: #F59E0B;
+      --amber-light: #FFFBEB;
+      --bg: #F7F7F8;
+      --white: #ffffff;
+      --gray-900: #1A1A1A;
+      --gray-700: #404040;
+      --gray-500: #888888;
+      --gray-400: #AAAAAA;
+      --gray-200: #E5E5E5;
+      --gray-100: #F0F0F0;
+      --radius: 20px;
+      --radius-sm: 14px;
+      --shadow: 0 2px 16px rgba(0,0,0,0.06);
+      --shadow-lg: 0 8px 30px rgba(0,0,0,0.08);
     }
+
     body {
-      font-family: var(--sans); background: var(--paper); color: var(--ink);
-      min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px;
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--gray-900);
+      min-height: 100vh;
       -webkit-font-smoothing: antialiased;
     }
-    body::before {
-      content: ''; position: fixed; inset: 0; pointer-events: none; opacity: 0.35;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0.55 0 0 0 0 0.5 0 0 0 0 0.42 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E");
+
+    /* ── States ──────────────────────────────────── */
+    #state-loading, #state-error, #state-private {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 40px 24px;
+      text-align: center;
     }
-    .card {
-      max-width: 520px; width: 100%; background: var(--card); border: 1.5px solid var(--border);
-      border-radius: 6px; padding: 52px 44px; text-align: center; position: relative;
-      transform: rotate(-0.8deg); box-shadow: 0 26px 60px rgba(25,21,18,0.13);
+    #state-loading { display: flex; }
+
+    .spinner {
+      width: 36px; height: 36px;
+      border: 3px solid var(--gray-100);
+      border-top-color: var(--orange);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      margin-bottom: 16px;
     }
-    .card::before { content: ''; position: absolute; inset: 10px; border: 1px dashed var(--border); border-radius: 3px; pointer-events: none; }
-    .stamp {
-      display: inline-block; border: 2px solid var(--orange); color: var(--orange); border-radius: 8px;
-      padding: 7px 14px; font-size: 11px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;
-      transform: rotate(-2deg); margin-bottom: 26px; background: var(--card);
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .state-icon {
+      width: 80px; height: 80px; border-radius: 40px;
+      background: var(--gray-100);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 36px; margin-bottom: 20px;
     }
-    .icon { font-size: 54px; margin-bottom: 8px; display: inline-block; animation: bob 3s ease-in-out infinite; }
-    @keyframes bob { 0%,100%{transform:translateY(0) rotate(-3deg)} 50%{transform:translateY(-8px) rotate(3deg)} }
-    h1 { font-family: var(--serif); font-size: clamp(34px, 6vw, 46px); font-weight: 900; letter-spacing: -1px; line-height: 1.08; margin: 10px 0 14px; }
-    h1 em { font-style: italic; color: var(--orange); font-weight: 700; }
-    p { font-family: var(--serif); font-style: italic; font-size: 16.5px; color: var(--warmgray); line-height: 1.7; margin-bottom: 32px; }
-    .btn {
-      display: inline-flex; align-items: center; gap: 10px; background: var(--ink); color: var(--card);
-      text-decoration: none; padding: 15px 28px; border-radius: 16px; font-size: 15px; font-weight: 800;
-      transition: transform 0.2s, background 0.2s;
+    .state-title {
+      font-family: 'Inter', sans-serif;
+      font-size: 22px; font-weight: 800; color: var(--gray-900);
+      margin-bottom: 8px;
     }
-    .btn:hover { background: var(--orange); transform: rotate(-1deg) translateY(-2px); }
-    .sign { font-family: var(--serif); font-style: italic; font-size: 13px; color: var(--warmgray); margin-top: 28px; }
+    .state-sub {
+      font-size: 14px; color: var(--gray-400);
+      line-height: 1.6; max-width: 300px;
+    }
+
+    /* ── Collection page ─────────────────────────── */
+    #state-collection { display: none; max-width: 520px; margin: 0 auto; padding: 0 0 60px; }
+
+    /* Top bar */
+    .topbar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 16px 0; margin-bottom: 20px;
+    }
+    .logo {
+      display: flex; align-items: center; gap: 8px;
+      font-family: 'Inter', sans-serif; font-size: 16px; font-weight: 800;
+      color: var(--gray-900); text-decoration: none;
+    }
+    .logo-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--orange);
+    }
+
+    /* Hero card */
+    .hero {
+      margin: 0 12px 16px;
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 24px 24px 20px;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-stripe {
+      position: absolute; left: 0; top: 0; bottom: 0;
+      width: 4px; background: var(--orange);
+      border-radius: 4px 0 0 4px;
+    }
+    .hero-emoji {
+      width: 56px; height: 56px; border-radius: 18px;
+      background: var(--orange-light);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 26px; margin-bottom: 14px;
+    }
+    .hero-label {
+      font-size: 10px; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--orange);
+      margin-bottom: 6px;
+    }
+    .hero-title {
+      font-family: 'Inter', sans-serif;
+      font-size: 24px; font-weight: 800;
+      line-height: 1.15; letter-spacing: -0.5px;
+      color: var(--gray-900); margin-bottom: 6px;
+    }
+    .hero-desc {
+      font-size: 14px; color: var(--gray-500);
+      line-height: 1.55; margin-bottom: 16px;
+    }
+
+    /* Stats row */
+    .stats-row {
+      display: flex; gap: 8px; margin-bottom: 16px;
+    }
+    .stat-card {
+      flex: 1; text-align: center;
+      border-radius: 14px; padding: 12px 0;
+    }
+    .stat-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 22px; font-weight: 800;
+    }
+    .stat-lbl {
+      font-size: 10px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.5px;
+      color: var(--gray-400); margin-top: 2px;
+    }
+
+    /* Owner row */
+    .owner {
+      display: flex; align-items: center; gap: 10px;
+      padding-top: 14px;
+      border-top: 1px solid var(--gray-100);
+    }
+    .owner-ring {
+      width: 38px; height: 38px; border-radius: 50%;
+      border: 2px solid var(--orange); padding: 2px;
+    }
+    .owner-avatar {
+      width: 100%; height: 100%; border-radius: 50%;
+      object-fit: cover;
+    }
+    .owner-name { font-size: 13px; font-weight: 700; color: var(--gray-900); }
+    .owner-handle { font-size: 11px; color: var(--gray-400); margin-top: 1px; }
+
+    /* CTA */
+    .cta-wrap { padding: 0 12px 16px; }
+    .cta-btn {
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      width: 100%; background: var(--orange); color: #fff;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px; font-weight: 700;
+      border: none; border-radius: var(--radius-sm);
+      padding: 16px 24px; cursor: pointer; text-decoration: none;
+      box-shadow: 0 6px 24px rgba(232,100,42,0.3);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .cta-btn:hover { transform: translateY(-1px); box-shadow: 0 8px 28px rgba(232,100,42,0.35); }
+    .cta-btn:active { transform: scale(0.98); }
+    .cta-sub { text-align: center; font-size: 12px; color: var(--gray-400); margin-top: 12px; }
+    .store-links { display: flex; justify-content: center; gap: 12px; margin-top: 8px; }
+    .store-link {
+      font-size: 12px; color: var(--orange);
+      text-decoration: none; font-weight: 600;
+      transition: opacity 0.15s;
+    }
+    .store-link:hover { opacity: 0.7; }
+
+    /* Section header */
+    .section-head {
+      padding: 4px 18px 10px;
+      font-size: 10px; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--gray-400);
+    }
+
+    /* Spot cards */
+    .spots { display: flex; flex-direction: column; gap: 8px; padding: 0 12px; }
+    .spot-card {
+      display: flex; align-items: center;
+      background: var(--white);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      text-decoration: none; color: inherit;
+      position: relative;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .spot-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+    .spot-stripe {
+      position: absolute; left: 0; top: 0; bottom: 0;
+      width: 4px; border-radius: 4px 0 0 4px; z-index: 1;
+    }
+    .spot-img {
+      width: 80px; height: 80px;
+      object-fit: cover; flex-shrink: 0;
+    }
+    .spot-img-placeholder {
+      width: 80px; height: 80px;
+      background: var(--gray-100); flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 26px;
+    }
+    .spot-body { flex: 1; padding: 10px 12px; min-width: 0; }
+    .spot-name {
+      font-size: 14px; font-weight: 800;
+      color: var(--gray-900); letter-spacing: -0.2px;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      margin-bottom: 2px;
+    }
+    .spot-location { font-size: 11px; color: var(--gray-400); margin-bottom: 2px; }
+    .spot-meta { display: flex; align-items: center; gap: 8px; }
+    .spot-cat { font-size: 11px; color: var(--gray-500); }
+    .spot-rating {
+      display: inline-flex; align-items: center; gap: 3px;
+      background: #FEF3C7; border-radius: 10px;
+      padding: 2px 7px;
+      font-size: 10px; font-weight: 700; color: #D97706;
+    }
+    .spot-price { font-size: 11px; font-weight: 700; margin-top: 2px; }
+    .spot-chevron {
+      padding: 0 12px; color: var(--gray-200);
+      font-size: 18px; flex-shrink: 0;
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding: 32px 24px 0;
+      font-size: 12px; color: var(--gray-400);
+    }
+    .footer a { color: var(--orange); text-decoration: none; font-weight: 600; }
+
+    /* Animations */
+    .fade-in { animation: fadeUp 0.45s ease both; }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+    .d1 { animation-delay: 0.05s; }
+    .d2 { animation-delay: 0.1s; }
+    .d3 { animation-delay: 0.15s; }
+    .d4 { animation-delay: 0.2s; }
   </style>
 </head>
 <body>
-  <div class="card">
-    <div class="stamp">Error 404 · Off the map</div>
-    <div><span class="icon">🧭</span></div>
-    <h1>This page is a<br/><em>hidden gem</em></h1>
-    <p>So hidden, in fact, that nobody has ever found it. Not even us. Let's get you back to the spots that actually exist.</p>
-    <a href="/" class="btn">← Back to HiddenBites</a>
-    <div class="sign">- the HiddenBites crew ✦</div>
+
+  <!-- Loading -->
+  <div id="state-loading">
+    <div class="spinner"></div>
+    <p style="color: var(--gray-400); font-size: 14px;">Loading collection…</p>
   </div>
+
+  <!-- Error -->
+  <div id="state-error">
+    <div class="state-icon">😕</div>
+    <p class="state-title">Something went wrong</p>
+    <p class="state-sub">We couldn't load this collection. Try again later.</p>
+  </div>
+
+  <!-- Private / not found -->
+  <div id="state-private">
+    <div class="state-icon">🔒</div>
+    <p class="state-title">Collection not found</p>
+    <p class="state-sub">This collection is private or no longer exists.</p>
+  </div>
+
+  <!-- Collection -->
+  <div id="state-collection">
+    <div class="topbar fade-in">
+      <a href="https://hiddenbites.app" class="logo">
+        <span class="logo-dot"></span>
+        HiddenBites
+      </a>
+    </div>
+
+    <!-- Hero -->
+    <div class="hero fade-in d1">
+      <div class="hero-stripe"></div>
+      <div class="hero-emoji">📁</div>
+      <p class="hero-label">Collection</p>
+      <h1 class="hero-title" id="col-title">—</h1>
+      <p class="hero-desc" id="col-desc"></p>
+
+      <div class="stats-row" id="stats-row">
+        <div class="stat-card" style="background:var(--orange-light);">
+          <div class="stat-num" style="color:var(--orange);" id="stat-spots">0</div>
+          <div class="stat-lbl">Spots</div>
+        </div>
+        <div class="stat-card" style="background:var(--purple-light);">
+          <div class="stat-num" style="color:var(--purple);" id="stat-cities">0</div>
+          <div class="stat-lbl">Cities</div>
+        </div>
+      </div>
+
+      <div class="owner">
+        <div class="owner-ring"><img id="owner-avatar" class="owner-avatar" src="" alt="" /></div>
+        <div>
+          <p class="owner-name" id="owner-name">—</p>
+          <p class="owner-handle" id="owner-handle">—</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-wrap fade-in d2">
+      <a id="open-app-btn" class="cta-btn" href="#">
+        <span style="font-size:20px">🍜</span>
+        Open in HiddenBites
+      </a>
+      <p class="cta-sub">Don't have the app yet?</p>
+      <div class="store-links">
+        <a class="store-link" href="https://apps.apple.com/app/id6760585986" target="_blank">App Store</a>
+        <span style="color:var(--gray-200)">·</span>
+        <a class="store-link" href="https://play.google.com/store/apps/details?id=com.kaithomasdev.hiddenbites" target="_blank">Google Play</a>
+      </div>
+    </div>
+
+    <!-- Spots -->
+    <p class="section-head fade-in d3" id="spots-label">SPOTS</p>
+    <div class="spots fade-in d4" id="spots-list"></div>
+
+    <div class="footer fade-in d4">
+      <p>Discover hidden food gems with <a href="https://hiddenbites.app">HiddenBites</a></p>
+    </div>
+  </div>
+
+  <script>
+    const SUPABASE_URL = 'https://rligvqsblzcqxerovskd.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJsaWd2cXNibHpjcXhlcm92c2tkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMzMzY1NjEsImV4cCI6MjA4ODkxMjU2MX0.YrGzxVJKgxKfkTome-Khjtx96NB-1lmNrOdq-JMlijo';
+    const ACCENTS = ['#E8642A', '#8B5CF6', '#3B82F6', '#22C55E', '#F59E0B'];
+
+    const path = window.location.pathname;
+    const match = path.match(/^\/collection\/([a-zA-Z0-9_-]+)/);
+    if (!match) { window.location.replace('https://hiddenbites.app'); }
+    else { loadCollection(match[1]); }
+
+    async function loadCollection(id) {
+      try {
+        const colRes = await fetch(
+          `${SUPABASE_URL}/rest/v1/collections?id=eq.${id}&select=*,user:profiles!collections_user_id_fkey(id,display_name,username,avatar_url)`,
+          { headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` } }
+        );
+        const cols = await colRes.json();
+        if (!cols || cols.length === 0 || !cols[0].is_public) { show('state-private'); return; }
+        const col = cols[0];
+        const owner = col.user;
+
+        const itemsRes = await fetch(
+          `${SUPABASE_URL}/rest/v1/collection_items?collection_id=eq.${id}&select=*,spot:spots(id,name,city,country,category,cover_image_url,price_level,average_rating,status)&order=sort_order.asc`,
+          { headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` } }
+        );
+        const allItems = await itemsRes.json();
+        const items = (allItems || []).filter(i => i.spot?.status === 'approved');
+
+        // Populate
+        document.title = `${col.title} · HiddenBites`;
+        document.getElementById('col-title').textContent = col.title;
+        const descEl = document.getElementById('col-desc');
+        if (col.description) { descEl.textContent = col.description; } else { descEl.style.display = 'none'; }
+
+        // Stats
+        const uniqueCities = new Set(items.map(i => i.spot.city));
+        document.getElementById('stat-spots').textContent = items.length;
+        document.getElementById('stat-cities').textContent = uniqueCities.size;
+
+        // Owner
+        document.getElementById('owner-name').textContent = owner?.display_name || 'HiddenBites User';
+        document.getElementById('owner-handle').textContent = `@${owner?.username || '—'} · Curated collection`;
+        const avatarEl = document.getElementById('owner-avatar');
+        avatarEl.src = owner?.avatar_url || 'https://ui-avatars.com/api/?background=E0E0E0&color=9E9E9E&size=200&name=U';
+
+        document.getElementById('open-app-btn').href = `hiddenbites://collection/${id}`;
+        document.getElementById('spots-label').textContent = `${items.length} HIDDEN GEM${items.length !== 1 ? 'S' : ''}`;
+
+        // Render spots
+        const container = document.getElementById('spots-list');
+        const CAT_ICONS = { restaurant: '🍽️', cafe: '☕', bar: '🍷', street_food: '🌮', bakery: '🥐', market: '🛒', dessert: '🍰', food_truck: '🚚' };
+        items.forEach((item, idx) => {
+          const s = item.spot;
+          const icon = CAT_ICONS[s.category] || '📍';
+          const col = ACCENTS[idx % ACCENTS.length];
+          const card = document.createElement('a');
+          card.className = 'spot-card';
+          card.href = `hiddenbites://spot/${s.id}`;
+          card.style.animationDelay = `${0.2 + idx * 0.04}s`;
+          card.classList.add('fade-in');
+          card.innerHTML = `
+            <div class="spot-stripe" style="background:${col}"></div>
+            ${s.cover_image_url
+              ? `<img class="spot-img" src="${s.cover_image_url}" alt="${s.name}" loading="lazy" />`
+              : `<div class="spot-img-placeholder">${icon}</div>`
+            }
+            <div class="spot-body">
+              <p class="spot-name">${s.name}</p>
+              <p class="spot-location">📍 ${s.city}, ${s.country}</p>
+              <div class="spot-meta">
+                <span class="spot-cat">${icon} ${s.category.replace('_', ' ')}</span>
+                ${s.average_rating > 0 ? `<span class="spot-rating">⭐ ${s.average_rating.toFixed(1)}</span>` : ''}
+              </div>
+              ${s.price_level ? `<p class="spot-price" style="color:${col}">${s.price_level}</p>` : ''}
+            </div>
+            <span class="spot-chevron">›</span>
+          `;
+          container.appendChild(card);
+        });
+
+        show('state-collection');
+      } catch (e) {
+        console.error(e);
+        show('state-error');
+      }
+    }
+
+    function show(id) {
+      document.getElementById('state-loading').style.display = 'none';
+      document.getElementById(id).style.display = id === 'state-collection' ? 'block' : 'flex';
+    }
+  </script>
 </body>
 </html>
