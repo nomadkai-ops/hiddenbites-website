@@ -154,7 +154,7 @@
   <!-- Loading -->
   <div id="state-loading">
     <div class="spinner"></div>
-    <p class="loading-text">Opening the collection…</p>
+    <p class="loading-text" id="loading-text">Opening the collection…</p>
   </div>
 
   <!-- Error -->
@@ -174,6 +174,49 @@
       <p class="state-title">This one stayed <em>hidden</em></p>
       <p class="state-sub">The collection is private or no longer exists. Plenty of other gems out there though.</p>
       <a href="https://hiddenbites.app" class="state-link">← Back to HiddenBites</a>
+    </div>
+  </div>
+
+  <!-- Profile (/u/<username>) -->
+  <div id="state-profile" style="display:none; max-width: 560px; margin: 0 auto; padding: 0 16px 56px; position: relative; z-index: 1;">
+    <div class="topbar fade-in">
+      <a href="https://hiddenbites.app" class="logo">
+        <img src="/icon.png" alt="" />
+        <span class="logo-text">Hidden<span>Bites</span></span>
+      </a>
+    </div>
+
+    <div class="sheet fade-in d1" style="text-align:center;">
+      <div class="sheet-stamp">A HiddenBites local</div>
+      <div class="owner-ring" style="width:84px;height:84px;margin:6px auto 14px;">
+        <img id="p-avatar" class="owner-avatar" src="https://ui-avatars.com/api/?background=F0E4D2&amp;color=A79E90&amp;size=200&amp;name=U" alt="" />
+      </div>
+      <h1 class="col-title" id="p-name" style="margin-bottom:4px;">—</h1>
+      <p class="owner-handle" id="p-handle" style="font-size:14px; margin-bottom:12px;">—</p>
+      <p class="col-desc" id="p-bio" style="margin-bottom:18px;"></p>
+
+      <div class="stats-row" style="justify-content:center;">
+        <div><div class="stat-num" id="p-spots">0</div><div class="stat-lbl">Hidden spots</div></div>
+        <div><div class="stat-num" id="p-cities">0</div><div class="stat-lbl">Cities</div></div>
+      </div>
+    </div>
+
+    <div class="fade-in d2">
+      <a id="p-open-app-btn" class="cta-btn" href="#">Open in HiddenBites →</a>
+      <p class="cta-sub">Don't have the app yet?</p>
+      <div class="store-links">
+        <a class="store-link" data-store="ios" href="https://apps.apple.com/app/hiddenbites-find-local-gems/id6760585986">App Store</a>
+        <span style="color:var(--border)">·</span>
+        <a class="store-link" data-store="android" href="https://play.google.com/store/apps/details?id=com.kaithomasdev.hiddenbites">Google Play</a>
+      </div>
+      <p class="inapp-hint" data-inapp-hint hidden></p>
+    </div>
+
+    <p class="section-head fade-in d3" id="p-spots-label">Their spots</p>
+    <div class="spots fade-in d4" id="p-spots-list"></div>
+
+    <div class="footer fade-in d4">
+      <p>Every gem was found by a real person · <a href="https://hiddenbites.app">hiddenbites.app</a></p>
     </div>
   </div>
 
@@ -230,8 +273,13 @@
 
     const path = window.location.pathname;
     const match = path.match(/^\/collection\/([a-zA-Z0-9_-]+)/);
-    if (!match) { window.location.replace('https://hiddenbites.app'); }
-    else { loadCollection(match[1]); }
+    const uMatch = path.match(/^\/u\/([a-zA-Z0-9_]{3,30})\/?$/);
+    if (match) { loadCollection(match[1]); }
+    else if (uMatch) {
+      document.getElementById('loading-text').textContent = 'Opening the profile…';
+      loadProfile(uMatch[1]);
+    }
+    else { window.location.replace('https://hiddenbites.app'); }
 
     // Spot names and cities are user-submitted, so never hand them to innerHTML raw.
     function esc(v) {
@@ -316,9 +364,80 @@
       }
     }
 
+    async function loadProfile(username) {
+      try {
+        const profRes = await fetch(
+          `${SUPABASE_URL}/rest/v1/profiles?username=eq.${encodeURIComponent(username.toLowerCase())}&select=id,display_name,username,avatar_url,bio,city,profile_searchable&limit=1`,
+          { headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` } }
+        );
+        const profs = await profRes.json();
+        const prof = Array.isArray(profs) ? profs[0] : null;
+        // profile_searchable=false means "don't find me" - honor it on the web too.
+        if (!prof || prof.profile_searchable === false) { show('state-private'); return; }
+
+        const spotsRes = await fetch(
+          `${SUPABASE_URL}/rest/v1/spots?submitted_by_user_id=eq.${prof.id}&status=eq.approved&select=id,name,city,country,category,cover_image_url,price_level,average_rating&order=created_at.desc&limit=12`,
+          { headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` } }
+        );
+        const spots = await spotsRes.json();
+        const list = Array.isArray(spots) ? spots : [];
+
+        document.title = `${prof.display_name || '@' + prof.username} · HiddenBites`;
+        document.getElementById('p-name').textContent = prof.display_name || 'HiddenBites User';
+        document.getElementById('p-handle').textContent = `@${prof.username}${prof.city ? ' · ' + prof.city : ''}`;
+        const bioEl = document.getElementById('p-bio');
+        if (prof.bio) { bioEl.textContent = prof.bio; } else { bioEl.style.display = 'none'; }
+        const av = document.getElementById('p-avatar');
+        av.src = prof.avatar_url || `https://ui-avatars.com/api/?background=F0E4D2&color=A79E90&size=200&name=${encodeURIComponent(prof.display_name || 'U')}`;
+
+        document.getElementById('p-spots').textContent = list.length >= 12 ? '12+' : list.length;
+        document.getElementById('p-cities').textContent = new Set(list.map(s => s.city)).size;
+        document.getElementById('p-open-app-btn').href = `hiddenbites://u/${encodeURIComponent(prof.username)}`;
+        document.getElementById('p-spots-label').textContent = list.length
+          ? `Hidden gems by @${prof.username}`
+          : 'Their journal is just beginning';
+
+        const container = document.getElementById('p-spots-list');
+        const CAT_ICONS = { restaurant: '🍽️', cafe: '☕', bar: '🍷', street_food: '🌮', bakery: '🥐', market: '🛒', dessert: '🍰', food_truck: '🚚' };
+        if (!list.length) {
+          container.innerHTML = '<p class="empty-note">No published spots yet - the best finds take time.</p>';
+        }
+        list.forEach((s, idx) => {
+          const icon = CAT_ICONS[s.category] || '📍';
+          const card = document.createElement('a');
+          card.className = 'spot-card fade-in';
+          card.href = `hiddenbites://spot/${s.id}`;
+          card.style.animationDelay = `${0.2 + idx * 0.04}s`;
+          card.innerHTML = `
+            ${s.cover_image_url
+              ? `<img class="spot-img" src="${esc(s.cover_image_url)}" alt="" loading="lazy" />`
+              : `<div class="spot-img-placeholder">${icon}</div>`
+            }
+            <div class="spot-body">
+              <p class="spot-name">${esc(s.name)}</p>
+              <p class="spot-location">📍 ${esc(s.city)}, ${esc(s.country)}</p>
+              <div class="spot-meta">
+                <span class="spot-cat">${icon} ${esc(String(s.category || '').replace('_', ' '))}</span>
+                ${s.average_rating > 0 ? `<span class="spot-rating">★ ${s.average_rating.toFixed(1)}</span>` : ''}
+                ${s.price_level ? `<span class="spot-price">${esc(s.price_level)}</span>` : ''}
+              </div>
+            </div>
+            <span class="spot-chevron">›</span>
+          `;
+          container.appendChild(card);
+        });
+
+        show('state-profile');
+      } catch (e) {
+        console.error(e);
+        show('state-error');
+      }
+    }
+
     function show(id) {
       document.getElementById('state-loading').style.display = 'none';
-      document.getElementById(id).style.display = id === 'state-collection' ? 'block' : 'flex';
+      document.getElementById(id).style.display =
+        (id === 'state-collection' || id === 'state-profile') ? 'block' : 'flex';
     }
   </script>
   <script src="/store.js"></script>

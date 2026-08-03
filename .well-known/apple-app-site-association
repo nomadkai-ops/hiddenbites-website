@@ -1,0 +1,20 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appIDs": ["VYP7WC9F86.com.kaithomasdev.hiddenbites"],
+        "appID": "VYP7WC9F86.com.kaithomasdev.hiddenbites",
+        "components": [
+          { "/": "/collection/*" },
+          { "/": "/spot/*" },
+          { "/": "/trail/*" },
+          { "/": "/u/*" },
+          { "/": "/passport" },
+          { "/": "/passport/*" }
+        ],
+        "paths": ["/collection/*", "/spot/*", "/trail/*", "/u/*", "/passport", "/passport/*"]
+      }
+    ]
+  }
+}

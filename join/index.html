@@ -57,6 +57,22 @@
     .note { font-size: 12.5px; margin-top: 18px; }
     .note a { color: var(--warmgray); font-weight: 600; text-decoration: none; }
     .note a:hover { color: var(--orange); }
+    /* Referral ticket - mirrors the app's dashed redeem pill */
+    .ticket {
+      margin: 0 0 24px; padding: 14px 16px 12px; border: 1.5px dashed rgba(232,100,42,0.55);
+      border-radius: 14px; background: #FAEDE2; cursor: pointer; user-select: none;
+      transition: transform 0.15s;
+    }
+    .ticket:active { transform: scale(0.98); }
+    .ticket-label {
+      font-size: 10px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--orange); margin-bottom: 5px;
+    }
+    .ticket-code {
+      font-family: var(--serif); font-size: 27px; font-weight: 900;
+      letter-spacing: 5px; color: var(--ink); line-height: 1.1;
+    }
+    .ticket-hint { font-size: 11.5px; font-weight: 600; color: var(--warmgray); margin-top: 6px; }
     @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
   </style>
 </head>
@@ -66,6 +82,11 @@
     <div><img src="/icon.png" alt="HiddenBites" class="icon" /></div>
     <h1>Find food<br/><em>only locals know</em></h1>
     <p class="lede">Real spots, curated by the people who actually eat there. Free on iOS and Android.</p>
+    <div class="ticket" id="ticket" hidden role="button" tabindex="0" aria-label="Copy invite code">
+      <div class="ticket-label">Your friend's invite code</div>
+      <div class="ticket-code" id="ticketCode"></div>
+      <div class="ticket-hint" id="ticketHint">Enter it at sign-up - you both earn rewards. Tap to copy.</div>
+    </div>
     <div id="stores">
       <a class="btn" id="ios" data-store="ios" href="https://apps.apple.com/app/hiddenbites-find-local-gems/id6760585986">
         <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
@@ -80,6 +101,39 @@
     <p class="note"><a href="https://hiddenbites.app">or browse hiddenbites.app →</a></p>
   </div>
 
+  <script>
+    // Referral code from the share link (?ref=C2BF6451): show it as a ticket
+    // so the code survives the store detour - sign-up asks for it later.
+    (function () {
+      var raw = new URLSearchParams(window.location.search).get('ref') || '';
+      var code = raw.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 12);
+      if (code.length < 4) return;
+      var ticket = document.getElementById('ticket');
+      var hint = document.getElementById('ticketHint');
+      document.getElementById('ticketCode').textContent = code;
+      ticket.hidden = false;
+      function copy() {
+        var done = function () {
+          hint.textContent = 'Copied! Enter it when you sign up.';
+          setTimeout(function () {
+            hint.textContent = 'Enter it at sign-up - you both earn rewards. Tap to copy.';
+          }, 2600);
+        };
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(code).then(done, function () {});
+        } else {
+          var ta = document.createElement('textarea');
+          ta.value = code; document.body.appendChild(ta); ta.select();
+          try { document.execCommand('copy'); done(); } catch (e) {}
+          document.body.removeChild(ta);
+        }
+      }
+      ticket.addEventListener('click', copy);
+      ticket.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); copy(); }
+      });
+    })();
+  </script>
   <script src="/store.js"></script>
 </body>
 </html>
