@@ -20,10 +20,23 @@
       font-family: var(--sans); background: var(--paper); color: var(--ink);
       min-height: 100vh; -webkit-font-smoothing: antialiased;
     }
+    body {
+      background:
+        radial-gradient(90% 60% at 50% -10%, #F9EBDD 0%, rgba(249,235,221,0) 60%),
+        radial-gradient(70% 50% at 100% 100%, #F1E7D2 0%, rgba(241,231,210,0) 55%),
+        var(--paper);
+    }
     body::before {
       content: ''; position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0.35;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0.55 0 0 0 0 0.5 0 0 0 0 0.42 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E");
     }
+    /* Giant passport stamp inked onto the desk - the app's signature motif */
+    .desk-stamp {
+      position: fixed; top: -70px; right: -90px; width: 440px; height: 440px;
+      z-index: 0; pointer-events: none; opacity: 0.12; transform: rotate(-14deg);
+      color: var(--gold);
+    }
+    @media (max-width: 640px) { .desk-stamp { width: 300px; height: 300px; top: -60px; right: -70px; } }
 
     /* ── States ── */
     #state-loading, #state-error, #state-private {
@@ -63,9 +76,29 @@
     .logo-text { font-family: var(--serif); font-size: 16px; font-weight: 900; color: var(--ink); letter-spacing: -0.3px; }
     .logo-text span { color: var(--orange); font-style: italic; }
 
+    /* The sheet is a page laid on the desk: washi tape, a second sheet
+       peeking out beneath, and a gentle pointer tilt (app's hold & tilt). */
     .sheet {
       background: var(--card); border: 1.5px solid var(--border); border-radius: 20px;
-      padding: 28px 26px 22px; margin-bottom: 14px; position: relative;
+      padding: 34px 26px 22px; margin-bottom: 14px; position: relative;
+      transform: rotate(-0.5deg);
+      box-shadow: 0 18px 44px rgba(25,21,18,0.10);
+      transform-style: preserve-3d; will-change: transform;
+    }
+    .sheet::before {
+      content: ''; position: absolute; inset: 10px -7px -8px 9px; z-index: -1;
+      background: #F8F3E9; border: 1.5px solid var(--border); border-radius: 20px;
+      transform: rotate(1.4deg);
+    }
+    .sheet-tape {
+      position: absolute; top: -11px; left: 50%; width: 92px; height: 26px;
+      transform: translateX(-50%) rotate(-2.5deg);
+      background: rgba(246,217,160,0.85); border-radius: 2px;
+      box-shadow: 0 2px 5px rgba(25,21,18,0.07);
+    }
+    .sheet-tape::after {
+      content: ''; position: absolute; inset: 0;
+      background: repeating-linear-gradient(90deg, transparent 0 6px, rgba(255,255,255,0.35) 6px 7px);
     }
     .sheet-stamp {
       display: inline-block; border: 2px solid var(--gold); color: var(--gold); border-radius: 8px;
@@ -77,8 +110,38 @@
     .stats-row { display: flex; gap: 28px; padding: 16px 0; border-top: 1.5px dashed var(--border); border-bottom: 1.5px dashed var(--border); margin-bottom: 16px; }
     .stat-num { font-family: var(--serif); font-size: 30px; font-weight: 900; letter-spacing: -1px; }
     .stat-lbl { font-size: 11.5px; font-weight: 600; color: var(--warmgray); margin-top: 1px; }
+    /* Equipped profile banner recolors a band across the sheet top,
+       exactly like the app's identity card. */
+    .p-band {
+      position: absolute; top: 0; left: 0; right: 0; height: 86px;
+      border-radius: 19px 19px 0 0; overflow: hidden; display: none;
+    }
+    .p-band .b-circle { position: absolute; top: -26px; left: -18px; width: 96px; height: 96px; border-radius: 50%; opacity: 0.7; }
+    .p-band .b-circle2 { position: absolute; top: 8px; right: 70px; width: 54px; height: 54px; border-radius: 50%; opacity: 0.85; }
+    .p-band .b-spark { position: absolute; bottom: 8px; right: 54px; font-size: 13px; opacity: 0.65; }
+    /* Profile hero: the avatar is a polaroid pinned into the journal,
+       with a passport stamp pressed half over its corner. */
+    .avatar-wrap { display: block; position: relative; margin: 8px 0 6px; }
+    .avatar-polaroid {
+      position: relative; display: inline-block; margin: 0 auto 22px;
+      background: var(--card); border: 1px solid var(--border); border-radius: 8px;
+      padding: 11px 11px 18px; transform: rotate(-1.8deg);
+      box-shadow: 0 10px 26px rgba(25,21,18,0.12);
+    }
+    .avatar-polaroid::after {
+      content: ''; position: absolute; top: -10px; left: 50%; width: 56px; height: 17px;
+      transform: translateX(-50%) rotate(-3deg);
+      background: rgba(246,217,160,0.9); border-radius: 2px;
+      box-shadow: 0 2px 4px rgba(25,21,18,0.06);
+    }
+    .mini-stamp {
+      position: absolute; right: -36px; bottom: -22px; width: 80px; height: 80px;
+      color: var(--orange); opacity: 0.8; transform: rotate(10deg); pointer-events: none;
+      mix-blend-mode: multiply;
+    }
     .owner { display: flex; align-items: center; gap: 11px; }
     .owner-ring { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--gold); padding: 2px; flex-shrink: 0; }
+    .owner-ring.cosmetic { border: none; padding: 4px; }
     .owner-avatar { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: block; background: var(--paper); }
     .owner-name { font-size: 13.5px; font-weight: 800; }
     .owner-handle { font-family: var(--serif); font-style: italic; font-size: 12px; color: var(--warmgray); margin-top: 1px; }
@@ -108,18 +171,37 @@
     .section-head::before, .section-head::after { content: '✦'; font-size: 10px; color: var(--orange); letter-spacing: 0; }
     .section-head::after { flex: 1; content: ''; height: 1.5px; border-top: 1.5px dashed var(--border); }
 
-    .spots { display: flex; flex-direction: column; gap: 10px; }
+    .spots { display: flex; flex-direction: column; gap: 12px; }
     .spot-card {
       display: flex; align-items: center; background: var(--card);
-      border: 1.5px solid var(--border); border-radius: 16px; overflow: hidden;
-      text-decoration: none; color: inherit; transition: transform 0.2s, border-color 0.2s;
+      border: 1.5px solid var(--border); border-radius: 16px;
+      text-decoration: none; color: inherit; transition: transform 0.25s cubic-bezier(0.22,0.9,0.3,1), border-color 0.25s, box-shadow 0.25s;
     }
-    .spot-card:hover { transform: translateX(5px); border-color: var(--orange); }
-    .spot-img { width: 82px; height: 82px; object-fit: cover; flex-shrink: 0; border-right: 1.5px solid var(--border); }
+    .spot-card:nth-child(odd) { transform: rotate(-0.35deg); }
+    .spot-card:nth-child(even) { transform: rotate(0.3deg); }
+    .spot-card:hover {
+      transform: rotate(0deg) translateY(-3px); border-color: var(--orange);
+      box-shadow: 0 14px 30px rgba(25,21,18,0.10);
+    }
+    /* Thumbnails wear a polaroid frame with a corner of washi tape */
+    .spot-polaroid {
+      flex-shrink: 0; background: var(--card); border: 1px solid var(--border);
+      border-radius: 6px; padding: 5px 5px 9px; margin: 10px 4px 10px 12px;
+      transform: rotate(-1.8deg); position: relative;
+      box-shadow: 0 4px 10px rgba(25,21,18,0.08);
+      transition: transform 0.25s cubic-bezier(0.22,0.9,0.3,1);
+    }
+    .spot-card:nth-child(even) .spot-polaroid { transform: rotate(1.6deg); }
+    .spot-card:hover .spot-polaroid { transform: rotate(0deg) scale(1.04); }
+    .spot-polaroid::after {
+      content: ''; position: absolute; top: -6px; left: 50%; width: 34px; height: 12px;
+      transform: translateX(-50%) rotate(-4deg);
+      background: rgba(246,217,160,0.9); border-radius: 2px;
+    }
+    .spot-img { width: 72px; height: 72px; object-fit: cover; display: block; border-radius: 3px; }
     .spot-img-placeholder {
-      width: 82px; height: 82px; background: var(--paper); flex-shrink: 0;
+      width: 72px; height: 72px; background: var(--paper); border-radius: 3px;
       display: flex; align-items: center; justify-content: center; font-size: 26px;
-      border-right: 1.5px solid var(--border);
     }
     .spot-body { flex: 1; padding: 11px 14px; min-width: 0; }
     .spot-name { font-family: var(--serif); font-size: 15.5px; font-weight: 700; letter-spacing: -0.2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 2px; }
@@ -150,6 +232,19 @@
   </style>
 </head>
 <body>
+
+  <!-- Passport stamp inked onto the desk -->
+  <svg class="desk-stamp" viewBox="0 0 200 200" aria-hidden="true">
+    <circle cx="100" cy="100" r="96" fill="none" stroke="currentColor" stroke-width="3"/>
+    <circle cx="100" cy="100" r="88" fill="none" stroke="currentColor" stroke-width="1.5"/>
+    <circle cx="100" cy="100" r="60" fill="none" stroke="currentColor" stroke-width="1.5"/>
+    <defs><path id="deskArc" d="M 100,100 m -74,0 a 74,74 0 1,1 148,0 a 74,74 0 1,1 -148,0"/></defs>
+    <text font-family="'Plus Jakarta Sans', sans-serif" font-size="13" font-weight="800" letter-spacing="4.5" fill="currentColor">
+      <textPath href="#deskArc">HIDDEN BITES ✦ PASSPORT ✦ HIDDEN BITES ✦</textPath>
+    </text>
+    <text x="100" y="95" text-anchor="middle" font-family="Fraunces, Georgia, serif" font-size="22" font-weight="900" font-style="italic" fill="currentColor">EST.</text>
+    <text x="100" y="128" text-anchor="middle" font-family="Fraunces, Georgia, serif" font-size="34" font-weight="900" fill="currentColor">2026</text>
+  </svg>
 
   <!-- Loading -->
   <div id="state-loading">
@@ -186,11 +281,27 @@
       </a>
     </div>
 
-    <div class="sheet fade-in d1" style="text-align:center;">
-      <div class="sheet-stamp">A HiddenBites local</div>
-      <div class="owner-ring" style="width:84px;height:84px;margin:6px auto 14px;">
-        <img id="p-avatar" class="owner-avatar" src="https://ui-avatars.com/api/?background=F0E4D2&amp;color=A79E90&amp;size=200&amp;name=U" alt="" />
+    <div class="sheet fade-in d1" style="text-align:center;" data-tilt>
+      <div class="p-band" id="p-band"><span class="b-circle"></span><span class="b-circle2"></span><span class="b-spark">✦</span></div>
+      <div class="sheet-tape"></div>
+      <div class="avatar-wrap">
+      <div class="avatar-polaroid">
+        <div class="owner-ring" style="width:92px;height:92px;margin:0 auto;">
+          <img id="p-avatar" class="owner-avatar" src="https://ui-avatars.com/api/?background=F0E4D2&amp;color=A79E90&amp;size=200&amp;name=U" alt="" />
+        </div>
+        <svg class="mini-stamp" viewBox="0 0 200 200" aria-hidden="true">
+          <circle cx="100" cy="100" r="96" fill="none" stroke="currentColor" stroke-width="4"/>
+          <circle cx="100" cy="100" r="86" fill="none" stroke="currentColor" stroke-width="2"/>
+          <circle cx="100" cy="100" r="56" fill="none" stroke="currentColor" stroke-width="2"/>
+          <defs><path id="miniArc" d="M 100,100 m -71,0 a 71,71 0 1,1 142,0 a 71,71 0 1,1 -142,0"/></defs>
+          <text font-family="'Plus Jakarta Sans', sans-serif" font-size="15" font-weight="800" letter-spacing="4" fill="currentColor">
+            <textPath href="#miniArc">HIDDEN BITES ✦ PASSPORT ✦ HIDDEN</textPath>
+          </text>
+          <text x="100" y="112" text-anchor="middle" font-family="Fraunces, Georgia, serif" font-size="36" font-weight="900" fill="currentColor">2026</text>
+        </svg>
       </div>
+      </div>
+      <div><span class="sheet-stamp" style="position:relative;">A HiddenBites local</span></div>
       <h1 class="col-title" id="p-name" style="margin-bottom:4px;">—</h1>
       <p class="owner-handle" id="p-handle" style="font-size:14px; margin-bottom:12px;">—</p>
       <p class="col-desc" id="p-bio" style="margin-bottom:18px;"></p>
@@ -229,7 +340,8 @@
       </a>
     </div>
 
-    <div class="sheet fade-in d1">
+    <div class="sheet fade-in d1" data-tilt>
+      <div class="sheet-tape"></div>
       <div class="sheet-stamp">A curated collection</div>
       <h1 class="col-title" id="col-title">—</h1>
       <p class="col-desc" id="col-desc"></p>
@@ -291,7 +403,7 @@
     async function loadCollection(id) {
       try {
         const colRes = await fetch(
-          `${SUPABASE_URL}/rest/v1/collections?id=eq.${id}&select=*,user:profiles!collections_user_id_fkey(id,display_name,username,avatar_url)`,
+          `${SUPABASE_URL}/rest/v1/collections?id=eq.${id}&select=*,user:profiles!collections_user_id_fkey(id,display_name,username,avatar_url,equipped_cosmetics)`,
           { headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` } }
         );
         // A malformed id makes PostgREST return an error object, not an array -
@@ -321,6 +433,11 @@
         document.getElementById('owner-handle').textContent = `@${owner?.username || '—'} · curated this`;
         const avatarEl = document.getElementById('owner-avatar');
         avatarEl.src = owner?.avatar_url || 'https://ui-avatars.com/api/?background=F0E4D2&color=A79E90&size=200&name=U';
+        const oEq = (owner && owner.equipped_cosmetics) || {};
+        if (oEq.avatar_ring) {
+          const oCos = await fetchCosmetics([oEq.avatar_ring]);
+          if (oCos[oEq.avatar_ring]) applyRing(avatarEl.parentElement, oCos[oEq.avatar_ring].config);
+        }
 
         document.getElementById('open-app-btn').href = `hiddenbites://collection/${id}`;
         document.getElementById('spots-label').textContent =
@@ -339,10 +456,10 @@
           card.href = `hiddenbites://spot/${s.id}`;
           card.style.animationDelay = `${0.2 + idx * 0.04}s`;
           card.innerHTML = `
-            ${s.cover_image_url
+            <span class="spot-polaroid">${s.cover_image_url
               ? `<img class="spot-img" src="${esc(s.cover_image_url)}" alt="" loading="lazy" />`
               : `<div class="spot-img-placeholder">${icon}</div>`
-            }
+            }</span>
             <div class="spot-body">
               <p class="spot-name">${esc(s.name)}</p>
               <p class="spot-location">📍 ${esc(s.city)}, ${esc(s.country)}</p>
@@ -364,10 +481,40 @@
       }
     }
 
+    // Equipped cosmetics, rendered the web way: the ring becomes a painted
+    // conic ring around the avatar, the banner recolors the sheet band.
+    async function fetchCosmetics(ids) {
+      const list = ids.filter(Boolean);
+      if (!list.length) return {};
+      try {
+        const r = await fetch(
+          `${SUPABASE_URL}/rest/v1/cosmetics?id=in.(${list.map(encodeURIComponent).join(',')})&select=id,kind,config`,
+          { headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` } }
+        );
+        const rows = await r.json();
+        const map = {};
+        (Array.isArray(rows) ? rows : []).forEach(c => { map[c.id] = c; });
+        return map;
+      } catch (e) { return {}; }
+    }
+    function ringBackground(config) {
+      const cols = (config && config.colors) || [];
+      if (!cols.length) return null;
+      if (cols.length === 1) return cols[0];
+      const stops = cols.concat(cols[0]);
+      return `conic-gradient(from -90deg, ${stops.join(', ')})`;
+    }
+    function applyRing(el, config) {
+      const bg = ringBackground(config);
+      if (!bg) return;
+      el.classList.add('cosmetic');
+      el.style.background = bg;
+    }
+
     async function loadProfile(username) {
       try {
         const profRes = await fetch(
-          `${SUPABASE_URL}/rest/v1/profiles?username=eq.${encodeURIComponent(username.toLowerCase())}&select=id,display_name,username,avatar_url,bio,city,profile_searchable&limit=1`,
+          `${SUPABASE_URL}/rest/v1/profiles?username=eq.${encodeURIComponent(username.toLowerCase())}&select=id,display_name,username,avatar_url,bio,city,profile_searchable,equipped_cosmetics&limit=1`,
           { headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` } }
         );
         const profs = await profRes.json();
@@ -390,6 +537,22 @@
         const av = document.getElementById('p-avatar');
         av.src = prof.avatar_url || `https://ui-avatars.com/api/?background=F0E4D2&color=A79E90&size=200&name=${encodeURIComponent(prof.display_name || 'U')}`;
 
+        // Their equipped ring + banner, worn on the web too.
+        const eq = prof.equipped_cosmetics || {};
+        const cos = await fetchCosmetics([eq.avatar_ring, eq.profile_banner]);
+        const ringC = cos[eq.avatar_ring];
+        if (ringC) applyRing(av.parentElement, ringC.config);
+        const bannerC = cos[eq.profile_banner];
+        const bandCfg = bannerC && bannerC.config && bannerC.config.banner;
+        if (bandCfg) {
+          const band = document.getElementById('p-band');
+          band.style.display = 'block';
+          band.style.background = bandCfg.band || '#FFE9D9';
+          band.querySelector('.b-circle').style.background = bandCfg.circle || '#FFDFC8';
+          band.querySelector('.b-circle2').style.background = bandCfg.circle2 || '#FFF3E8';
+          band.querySelector('.b-spark').style.color = bandCfg.spark || '#E8642A';
+        }
+
         document.getElementById('p-spots').textContent = list.length >= 12 ? '12+' : list.length;
         document.getElementById('p-cities').textContent = new Set(list.map(s => s.city)).size;
         document.getElementById('p-open-app-btn').href = `hiddenbites://u/${encodeURIComponent(prof.username)}`;
@@ -409,10 +572,10 @@
           card.href = `hiddenbites://spot/${s.id}`;
           card.style.animationDelay = `${0.2 + idx * 0.04}s`;
           card.innerHTML = `
-            ${s.cover_image_url
+            <span class="spot-polaroid">${s.cover_image_url
               ? `<img class="spot-img" src="${esc(s.cover_image_url)}" alt="" loading="lazy" />`
               : `<div class="spot-img-placeholder">${icon}</div>`
-            }
+            }</span>
             <div class="spot-body">
               <p class="spot-name">${esc(s.name)}</p>
               <p class="spot-location">📍 ${esc(s.city)}, ${esc(s.country)}</p>
@@ -438,6 +601,30 @@
       document.getElementById('state-loading').style.display = 'none';
       document.getElementById(id).style.display =
         (id === 'state-collection' || id === 'state-profile') ? 'block' : 'flex';
+    }
+    // The app's "hold & tilt": sheets lean toward the pointer, spring back on
+    // leave. Hover-capable pointers only - touch scrolling stays untouched.
+    if (window.matchMedia('(hover: hover)').matches &&
+        !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.querySelectorAll('[data-tilt]').forEach(el => {
+        let raf = 0;
+        el.addEventListener('pointermove', e => {
+          const r = el.getBoundingClientRect();
+          const x = (e.clientX - r.left) / r.width - 0.5;
+          const y = (e.clientY - r.top) / r.height - 0.5;
+          cancelAnimationFrame(raf);
+          raf = requestAnimationFrame(() => {
+            el.style.transform =
+              `perspective(900px) rotate(-0.5deg) rotateY(${x * 5}deg) rotateX(${-y * 4}deg)`;
+          });
+        });
+        el.addEventListener('pointerleave', () => {
+          cancelAnimationFrame(raf);
+          el.style.transition = 'transform 0.5s cubic-bezier(0.22, 0.9, 0.3, 1)';
+          el.style.transform = '';
+          setTimeout(() => { el.style.transition = ''; }, 500);
+        });
+      });
     }
   </script>
   <script src="/store.js"></script>

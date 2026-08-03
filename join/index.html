@@ -16,26 +16,76 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
       --paper: #F4F0E9; --card: #FFFDF8; --border: #F0E4D2; --ink: #191512;
-      --warmgray: #A79E90; --orange: #E8642A;
+      --warmgray: #A79E90; --orange: #E8642A; --gold: #B4881F;
+      --orange-light: #FAEDE2; --gold-light: #F6EDD8;
       --serif: 'Fraunces', Georgia, serif; --sans: 'Plus Jakarta Sans', -apple-system, sans-serif;
     }
     body {
-      font-family: var(--sans); background: var(--paper); color: var(--ink);
+      font-family: var(--sans); color: var(--ink);
+      background:
+        radial-gradient(90% 60% at 50% -10%, #F9EBDD 0%, rgba(249,235,221,0) 60%),
+        radial-gradient(70% 50% at 100% 100%, #F1E7D2 0%, rgba(241,231,210,0) 55%),
+        var(--paper);
       min-height: 100vh; display: flex; align-items: center; justify-content: center;
       padding: 24px; -webkit-font-smoothing: antialiased;
     }
+    body::before {
+      content: ''; position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0.35;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0.55 0 0 0 0 0.5 0 0 0 0 0.42 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+    .desk-stamp {
+      position: fixed; top: -70px; right: -90px; width: 400px; height: 400px;
+      z-index: 0; pointer-events: none; opacity: 0.12; transform: rotate(-14deg);
+      color: var(--gold);
+    }
+    @media (max-width: 640px) { .desk-stamp { width: 280px; height: 280px; top: -55px; right: -65px; } }
     .card {
       max-width: 420px; width: 100%; background: var(--card); border: 1.5px solid var(--border);
       border-radius: 6px; padding: 38px 30px 30px; text-align: center; position: relative;
       transform: rotate(-0.7deg); box-shadow: 0 26px 60px rgba(25,21,18,0.13);
+      z-index: 1; will-change: transform;
     }
     .card::before { content: ''; position: absolute; inset: 9px; border: 1px dashed var(--border); border-radius: 3px; pointer-events: none; }
+    .card::after {
+      content: ''; position: absolute; inset: 12px -8px -9px 10px; z-index: -1;
+      background: #F8F3E9; border: 1.5px solid var(--border); border-radius: 6px;
+      transform: rotate(1.6deg);
+    }
+    .card-tape {
+      position: absolute; top: -12px; left: 50%; width: 96px; height: 27px;
+      transform: translateX(-50%) rotate(-2.5deg); z-index: 2;
+      background: rgba(246,217,160,0.85); border-radius: 2px;
+      box-shadow: 0 2px 5px rgba(25,21,18,0.07);
+    }
+    .card-tape::after {
+      content: ''; position: absolute; inset: 0;
+      background: repeating-linear-gradient(90deg, transparent 0 6px, rgba(255,255,255,0.35) 6px 7px);
+    }
+    /* The app icon rides a little fan of polaroids - the brand's card cluster */
+    .icon-fan { position: relative; display: block; margin-bottom: 18px; }
+    .fan-card {
+      position: absolute; top: 4px; left: 50%; width: 54px; height: 62px;
+      background: var(--card); border: 1px solid var(--border); border-radius: 6px;
+      padding: 4px 4px 10px; box-shadow: 0 5px 12px rgba(25,21,18,0.10);
+    }
+    .fan-card::before { content: ''; display: block; height: 38px; border-radius: 3px; }
+    .fan-card.f1 { transform: translateX(-50%) rotate(-12deg) translateX(-36px) translateY(3px); }
+    .fan-card.f1::before { background: var(--orange-light); }
+    .fan-card.f1::after { content: '🌮'; position: absolute; top: 12px; left: 0; right: 0; text-align: center; font-size: 17px; }
+    .fan-card.f2 { transform: translateX(-50%) rotate(12deg) translateX(36px) translateY(3px); }
+    .fan-card.f2::before { background: var(--gold-light); }
+    .fan-card.f2::after { content: '🥐'; position: absolute; top: 12px; left: 0; right: 0; text-align: center; font-size: 17px; }
+    .stamp-row { display: block; }
     .stamp {
       display: inline-block; border: 2px solid var(--orange); color: var(--orange); border-radius: 8px;
       padding: 6px 12px; font-size: 10px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;
       transform: rotate(-2deg); margin-bottom: 18px; background: var(--card);
     }
-    .icon { width: 66px; height: 66px; border-radius: 17px; border: 1.5px solid var(--border); transform: rotate(3deg); margin-bottom: 18px; }
+    .icon {
+      width: 66px; height: 66px; border-radius: 17px; border: 1.5px solid var(--border);
+      transform: rotate(3deg); position: relative; z-index: 1; display: block; margin: 0 auto;
+      box-shadow: 0 6px 16px rgba(25,21,18,0.12);
+    }
     h1 { font-family: var(--serif); font-size: 32px; font-weight: 900; letter-spacing: -1px; line-height: 1.06; margin-bottom: 12px; }
     h1 em { font-style: italic; color: var(--orange); font-weight: 700; }
     .lede { font-family: var(--serif); font-style: italic; font-size: 15.5px; color: var(--warmgray); line-height: 1.65; margin-bottom: 26px; }
@@ -57,13 +107,53 @@
     .note { font-size: 12.5px; margin-top: 18px; }
     .note a { color: var(--warmgray); font-weight: 600; text-decoration: none; }
     .note a:hover { color: var(--orange); }
-    /* Referral ticket - mirrors the app's dashed redeem pill */
-    .ticket {
-      margin: 0 0 24px; padding: 14px 16px 12px; border: 1.5px dashed rgba(232,100,42,0.55);
-      border-radius: 14px; background: #FAEDE2; cursor: pointer; user-select: none;
-      transition: transform 0.15s;
+    /* Personal invitation: the inviter's polaroid wearing their ring */
+    .inviter { display: none; margin: 0 0 6px; }
+    .inviter-polaroid {
+      position: relative; display: inline-block;
+      background: var(--card); border: 1px solid var(--border); border-radius: 8px;
+      padding: 8px 8px 12px; transform: rotate(-2deg);
+      box-shadow: 0 8px 20px rgba(25,21,18,0.12);
     }
-    .ticket:active { transform: scale(0.98); }
+    .inviter-polaroid::after {
+      content: ''; position: absolute; top: -8px; left: 50%; width: 44px; height: 14px;
+      transform: translateX(-50%) rotate(-3deg);
+      background: rgba(246,217,160,0.9); border-radius: 2px;
+    }
+    .inviter-ring {
+      display: inline-block; width: 74px; height: 74px; border-radius: 50%; padding: 4px;
+      background: var(--gold);
+    }
+    .inviter-ring img {
+      width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: block;
+      background: var(--paper); border: 2px solid var(--card);
+    }
+    /* Referral ticket - a real punched ticket: perforation holes left and
+       right, dashed edge, slight lean. Mirrors the app's redeem pill. */
+    .ticket {
+      margin: 0 0 24px; padding: 14px 26px 12px; border: 1.5px dashed rgba(232,100,42,0.55);
+      border-radius: 14px; background: #FAEDE2; cursor: pointer; user-select: none;
+      transition: transform 0.2s cubic-bezier(0.22,0.9,0.3,1); transform: rotate(-0.8deg);
+      position: relative; overflow: visible;
+    }
+    .ticket:hover { transform: rotate(0deg) scale(1.02); }
+    .ticket:active { transform: scale(0.97); }
+    .ticket::before, .ticket::after {
+      content: ''; position: absolute; top: 50%; width: 18px; height: 18px;
+      border-radius: 50%; background: var(--card); border: 1.5px dashed rgba(232,100,42,0.55);
+      transform: translateY(-50%);
+    }
+    .ticket::before { left: -11px; border-left-color: transparent; }
+    .ticket::after { right: -11px; border-right-color: transparent; }
+    /* Confetti burst when the code is copied - same celebration as the app */
+    .confetti-piece {
+      position: absolute; width: 7px; height: 11px; border-radius: 2px;
+      pointer-events: none; z-index: 5; opacity: 0;
+    }
+    @keyframes confetti-pop {
+      0%   { opacity: 1; transform: translate(0, 0) rotate(0deg) scale(1); }
+      100% { opacity: 0; transform: translate(var(--cx), var(--cy)) rotate(var(--cr)) scale(0.7); }
+    }
     .ticket-label {
       font-size: 10px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;
       color: var(--orange); margin-bottom: 5px;
@@ -77,11 +167,32 @@
   </style>
 </head>
 <body>
-  <div class="card">
-    <div class="stamp">Verified Hidden Bite</div>
-    <div><img src="/icon.png" alt="HiddenBites" class="icon" /></div>
-    <h1>Find food<br/><em>only locals know</em></h1>
-    <p class="lede">Real spots, curated by the people who actually eat there. Free on iOS and Android.</p>
+  <svg class="desk-stamp" viewBox="0 0 200 200" aria-hidden="true">
+    <circle cx="100" cy="100" r="96" fill="none" stroke="currentColor" stroke-width="3"/>
+    <circle cx="100" cy="100" r="88" fill="none" stroke="currentColor" stroke-width="1.5"/>
+    <circle cx="100" cy="100" r="60" fill="none" stroke="currentColor" stroke-width="1.5"/>
+    <defs><path id="deskArc" d="M 100,100 m -74,0 a 74,74 0 1,1 148,0 a 74,74 0 1,1 -148,0"/></defs>
+    <text font-family="'Plus Jakarta Sans', sans-serif" font-size="13" font-weight="800" letter-spacing="4.5" fill="currentColor">
+      <textPath href="#deskArc">HIDDEN BITES ✦ PASSPORT ✦ HIDDEN BITES ✦</textPath>
+    </text>
+    <text x="100" y="95" text-anchor="middle" font-family="Fraunces, Georgia, serif" font-size="22" font-weight="900" font-style="italic" fill="currentColor">EST.</text>
+    <text x="100" y="128" text-anchor="middle" font-family="Fraunces, Georgia, serif" font-size="34" font-weight="900" fill="currentColor">2026</text>
+  </svg>
+  <div class="card" id="card">
+    <div class="card-tape"></div>
+    <div class="stamp-row"><span class="stamp">Verified Hidden Bite</span></div>
+    <div class="icon-fan">
+      <span class="fan-card f1"></span>
+      <span class="fan-card f2"></span>
+      <img src="/icon.png" alt="HiddenBites" class="icon" />
+    </div>
+    <div class="inviter" id="inviter">
+      <span class="inviter-polaroid">
+        <span class="inviter-ring" id="inviterRing"><img id="inviterAvatar" src="" alt="" /></span>
+      </span>
+    </div>
+    <h1 id="headline">Find food<br/><em>only locals know</em></h1>
+    <p class="lede" id="lede">Real spots, curated by the people who actually eat there. Free on iOS and Android.</p>
     <div class="ticket" id="ticket" hidden role="button" tabindex="0" aria-label="Copy invite code">
       <div class="ticket-label">Your friend's invite code</div>
       <div class="ticket-code" id="ticketCode"></div>
@@ -112,12 +223,72 @@
       var hint = document.getElementById('ticketHint');
       document.getElementById('ticketCode').textContent = code;
       ticket.hidden = false;
+
+      // Whose invitation is this? Show the inviter wearing their ring -
+      // fail-soft: any hiccup keeps the generic page.
+      (async function () {
+        try {
+          var SB = 'https://rligvqsblzcqxerovskd.supabase.co';
+          var KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJsaWd2cXNibHpjcXhlcm92c2tkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMzMzY1NjEsImV4cCI6MjA4ODkxMjU2MX0.YrGzxVJKgxKfkTome-Khjtx96NB-1lmNrOdq-JMlijo';
+          var hdr = { apikey: KEY, Authorization: 'Bearer ' + KEY };
+          var r = await fetch(SB + '/rest/v1/referral_codes?code=eq.' + encodeURIComponent(code) + '&select=user_id&limit=1', { headers: hdr });
+          var rows = await r.json();
+          var uid = Array.isArray(rows) && rows[0] && rows[0].user_id;
+          if (!uid) return;
+          var p = await fetch(SB + '/rest/v1/profiles?id=eq.' + uid + '&select=display_name,username,avatar_url,equipped_cosmetics&limit=1', { headers: hdr });
+          var profs = await p.json();
+          var prof = Array.isArray(profs) && profs[0];
+          if (!prof) return;
+          var name = prof.display_name || ('@' + (prof.username || 'a local'));
+          document.getElementById('inviterAvatar').src = prof.avatar_url ||
+            ('https://ui-avatars.com/api/?background=F0E4D2&color=A79E90&size=200&name=' + encodeURIComponent(name));
+          var eq = prof.equipped_cosmetics || {};
+          if (eq.avatar_ring) {
+            var c = await fetch(SB + '/rest/v1/cosmetics?id=eq.' + encodeURIComponent(eq.avatar_ring) + '&select=config&limit=1', { headers: hdr });
+            var cos = await c.json();
+            var cols = Array.isArray(cos) && cos[0] && cos[0].config && cos[0].config.colors;
+            if (cols && cols.length) {
+              document.getElementById('inviterRing').style.background = cols.length === 1
+                ? cols[0]
+                : 'conic-gradient(from -90deg, ' + cols.concat(cols[0]).join(', ') + ')';
+            }
+          }
+          document.getElementById('inviter').style.display = 'block';
+          var fan = document.querySelector('.icon-fan');
+          if (fan) fan.style.display = 'none';
+          var h = document.getElementById('headline');
+          h.innerHTML = '';
+          h.appendChild(document.createTextNode(name + ' '));
+          var em = document.createElement('em'); em.textContent = 'invited you';
+          h.appendChild(em);
+          document.getElementById('lede').textContent =
+            'They already eat where the locals eat. Join them on HiddenBites - free on iOS and Android.';
+        } catch (e) { /* generic page stays */ }
+      })();
       function copy() {
         var done = function () {
           hint.textContent = 'Copied! Enter it when you sign up.';
+          burst();
           setTimeout(function () {
             hint.textContent = 'Enter it at sign-up - you both earn rewards. Tap to copy.';
           }, 2600);
+        };
+        var burst = function () {
+          if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+          var colors = ['#E8642A', '#F2C879', '#B4881F', '#3E7A2C', '#1D6FA8'];
+          for (var i = 0; i < 14; i++) {
+            var p = document.createElement('span');
+            p.className = 'confetti-piece';
+            p.style.background = colors[i % colors.length];
+            p.style.left = (20 + Math.random() * 60) + '%';
+            p.style.top = '40%';
+            p.style.setProperty('--cx', (Math.random() * 160 - 80) + 'px');
+            p.style.setProperty('--cy', (-40 - Math.random() * 90) + 'px');
+            p.style.setProperty('--cr', (Math.random() * 540 - 270) + 'deg');
+            p.style.animation = 'confetti-pop ' + (0.7 + Math.random() * 0.5) + 's cubic-bezier(0.22,0.9,0.3,1) forwards';
+            ticket.appendChild(p);
+            setTimeout(function (el) { return function () { el.remove(); }; }(p), 1400);
+          }
         };
         if (navigator.clipboard && navigator.clipboard.writeText) {
           navigator.clipboard.writeText(code).then(done, function () {});
