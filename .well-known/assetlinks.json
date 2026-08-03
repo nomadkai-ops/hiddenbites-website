@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.kaithomasdev.hiddenbites",
+      "sha256_cert_fingerprints": [
+        "D7:4D:10:8B:90:0D:8C:E9:6B:74:9A:E9:0F:C5:AE:2B:AD:52:0E:8A:7B:47:A2:62:90:13:EA:16:C8:3E:49:FB"
+      ]
+    }
+  }
+]
